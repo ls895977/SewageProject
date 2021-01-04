@@ -9,6 +9,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?>() {
     }
 
     override fun initView() {
+        toNextPage(MainActivity::class.java)
     }
 
     override fun initData() {

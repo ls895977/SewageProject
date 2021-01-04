@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.gyf.immersionbar.ImmersionBar
+import com.sewageproject.R
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -13,6 +15,8 @@ abstract class BaseActivity<V : ViewDataBinding?> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getResourceId())
+        ImmersionBar.with(this).statusBarDarkFont(statusBarDark()).keyboardEnable(true)
+            .navigationBarColor(R.color.white).init()
         EventBus.getDefault().register(this)
         initView()
         initData()
@@ -26,6 +30,11 @@ abstract class BaseActivity<V : ViewDataBinding?> : AppCompatActivity() {
         EventBus.getDefault().unregister(this)
         binding = null
         super.onDestroy()
+    }
+    open fun toNextPage(cls: Class<*>?) {
+        val intent = Intent()
+        intent.setClass(this, cls!!)
+        startActivity(intent)
     }
     open fun toNextPage(cls: Class<*>?, bundle: Bundle?) {
         val intent = Intent()
@@ -54,4 +63,14 @@ abstract class BaseActivity<V : ViewDataBinding?> : AppCompatActivity() {
     protected abstract fun initView()
     protected abstract fun initData()
     protected abstract fun initListener()
+
+    /**
+     * 状态栏字体深色或亮色
+     *
+     *
+     * isDarkFont true 深色
+     */
+    protected open fun statusBarDark(): Boolean {
+        return true
+    }
 }
