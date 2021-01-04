@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/logo_welcome" />
+    </item>
+<!--    <item  android:top="@dimen/dp_230">-->
+<!--        <bitmap-->
+<!--            android:gravity="top"-->
+<!--            android:tileMode="disabled"-->
+<!--            android:src="@drawable/logo_welcomebut" />-->
+<!--    </item>-->
+<!--    <item  android:bottom="@dimen/dp_80">-->
+<!--        <bitmap-->
+<!--            android:gravity="bottom"-->
+<!--            android:tileMode="disabled"-->
+<!--            android:src="@drawable/logo_welcometop" />-->
+<!--    </item>-->
+
+</layer-list>
