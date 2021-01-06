@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.Subscribe
  *Date : 2020/12/23
  *Describe :
  */
-abstract class BasicFragment<V : ViewDataBinding>: Fragment() {
+abstract class BaseFragment<V : ViewDataBinding>: Fragment() {
     protected abstract fun getResourceId(): Int
     protected abstract fun initView()
     protected abstract fun initData()
