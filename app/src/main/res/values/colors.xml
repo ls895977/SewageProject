@@ -31,6 +31,7 @@
     <color name="text_color_50000000">#50000000</color>
     <color name="text_color_6e4b1b">#6E4B1B</color>
     <color name="text_color_413334">#413334</color>
+    <color name="text_color_e8f2ff">#E8F2FF</color>
     <color name="text_color_13DC85">#13DC85</color>
     <color name="text_color_aaaaaa">#aaaaaa</color>
     <color name="text_color_default">#7F7F7F</color>
@@ -66,6 +67,10 @@
     <color name="text_color_e1bd89">#E1BD89</color>
     <color name="text_color_372c19">#372C19</color>
     <color name="text_color_3E4055">#3E4055</color>
+    <color name="text_color_16D462">#16D462</color>
+    <color name="text_color_FF9415">#FF9415</color>
+    <color name="text_color_FF4B4B">#FF4B4B</color>
+    <color name="text_color_333333">#333333</color>
     <color name="text_color_383536">#383536</color>
     <color name="text_color_452f27">#452F27</color>
     <color name="text_color_bad34d">#BAD34D</color>
@@ -85,6 +90,7 @@
     <color name="text_color_50f54f76">#50F54F76</color>
     <color name="text_color_FF9B74">#FF9B74</color>
     <color name="text_color_ec6664">#EC6664</color>
+    <color name="text_color_e6e6e6">#e6e6e6</color>
     <color name="text_color_fc3209">#FC3209</color>
     <color name="text_color_ff5151">#FF5151</color>
     <color name="text_color_F5F5F5">#F5F5F5</color>
@@ -111,6 +117,10 @@
     <color name="bg_calender_picker">#f2f2f2</color>
     <color name="text_color_6B564B">#6B564B</color>
     <color name="text_color_E8B88F">#E8B88F</color>
+    <color name="text_color_E4E8ED">#E4E8ED</color>
+    <color name="text_color_E17153">#E17153</color>
+    <color name="text_color_E3BE48">#E3BE48</color>
+    <color name="text_color_86CCA2">#86CCA2</color>
     <color name="text_color_D2CCC6">#D2CCC6</color>
     <color name="text_color_F3AD74">#F3AD74</color>
     <color name="text_color_FF9A63">#FF9A63</color>

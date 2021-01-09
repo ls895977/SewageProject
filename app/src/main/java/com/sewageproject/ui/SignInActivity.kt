@@ -12,7 +12,7 @@ import com.sewageproject.databinding.SigninactivityBinding
  * 登录
  */
 class SignInActivity :
-    BaseActivity<SigninactivityBinding?>() {
+    BaseActivity<SigninactivityBinding>() {
     override fun statusBarDark(): Boolean {
         return false
     }

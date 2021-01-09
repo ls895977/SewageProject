@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.gyf.immersionbar.ImmersionBar
+import com.sewageproject.R
 import kotlinx.coroutines.CoroutineScope
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,6 +31,8 @@ abstract class BaseFragment<V : ViewDataBinding>: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, getResourceId(), null, false)
+        ImmersionBar.with(this).statusBarDarkFont(statusBarDark()).keyboardEnable(true)
+            .navigationBarColor(R.color.white).init()
         EventBus.getDefault().register(this)
         return binding?.root
     }

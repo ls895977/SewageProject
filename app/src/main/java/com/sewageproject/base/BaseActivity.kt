@@ -2,6 +2,7 @@ package com.sewageproject.base
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -10,7 +11,7 @@ import com.sewageproject.R
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-abstract class BaseActivity<V : ViewDataBinding?> : AppCompatActivity() {
+abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity() {
     var binding: V? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +27,10 @@ abstract class BaseActivity<V : ViewDataBinding?> : AppCompatActivity() {
      open fun mainEvent(event: MainEventBean?) {
 
      }
+
+    fun onBack(v: View){
+         finish()
+    }
     override fun onDestroy() {
         EventBus.getDefault().unregister(this)
         binding = null
