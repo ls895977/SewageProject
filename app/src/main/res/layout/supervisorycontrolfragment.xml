@@ -1,11 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="监控"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/superTitle"
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bg_1d7eff_5"
+        android:layout_height="@dimen/dip_65">
+        <EditText
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/dip_50"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="@dimen/dip_30"
+            android:background="@drawable/bg_ffffff_5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/text_color_333"
+            android:textSize="@dimen/fond_12sp"
+            android:textColorHint="#cccccc"
+            android:hint="请输入站点或线路名称"
+            android:layout_marginBottom="@dimen/dip_5"
+            android:layout_height="@dimen/dip_30"/>
+
+        <TextView
+            android:id="@+id/ivRight"
+            android:text="筛选"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dip_5"
+            android:layout_marginBottom="@dimen/dip_10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/dip_30"
+            android:layout_height="@dimen/dip_30"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/magic_indicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/superTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_45"
+        android:layout_gravity="center_horizontal" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        app:layout_constraintTop_toBottomOf="@+id/magic_indicator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -74,4 +74,6 @@ dependencies {
     implementation 'com.shuyu:gsyVideoPlayer-x86:8.0.0'
     //banner
     implementation 'com.youth.banner:banner:2.1.0'
+    //指示器框架
+    implementation 'com.github.hackware1993:MagicIndicator:1.7.0' // for androidx
 }
