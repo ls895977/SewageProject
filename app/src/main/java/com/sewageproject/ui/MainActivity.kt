@@ -10,6 +10,7 @@ import com.sewageproject.ui.fragment.SupervisoryControlFragment
 import com.sewageproject.ui.fragment.VideoFragment
 import com.sewageproject.ui.fragment.WaterRegimeFragment
 import com.sewageproject.ui.fragment.WorkbenchFragment
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -44,17 +45,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initListener() {
         binding?.itemBut1?.setOnClickListener {
             setCurrent(0)
+            GSYVideoManager.onPause()
         }
         binding?.itemBut2?.setOnClickListener {
             setCurrent(1)
+            GSYVideoManager.onPause()
         }
         binding?.itemBut3?.setOnClickListener {
         }
         binding?.itemBut4?.setOnClickListener {
             setCurrent(2)
+            GSYVideoManager.onPause()
         }
         binding?.itemBut5?.setOnClickListener {
             setCurrent(3)
+            GSYVideoManager.onResume()
         }
     }
 
@@ -73,5 +78,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
        im[currentTabIndex]!!.isSelected = false
        im[indext]!!.isSelected = true
         currentTabIndex = indext
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        GSYVideoManager.releaseAllVideos()
     }
 }

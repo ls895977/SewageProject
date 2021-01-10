@@ -20,6 +20,7 @@
         android:id="@+id/workChildRecyclerView"
         android:layout_marginTop="@dimen/dip_8"
         app:spanCount="5"
+        android:paddingBottom="@dimen/dip_25"
         tools:itemCount="10"
         tools:listitem="@layout/item_workbenchchild"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

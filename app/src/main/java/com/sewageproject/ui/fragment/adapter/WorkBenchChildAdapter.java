@@ -1,13 +1,8 @@
 package com.sewageproject.ui.fragment.adapter;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.sewageproject.R;
 import com.sewageproject.ui.fragment.bean.WorkbenchBean;
-import com.sewageproject.ui.fragment.bean.WorkbenchBean.WorkbenchChlideBean;
-
 import java.util.List;
 
 public class WorkBenchChildAdapter
@@ -17,7 +12,6 @@ public class WorkBenchChildAdapter
     }
     @Override
     protected void convert(BaseViewHolder viewHolder, WorkbenchBean.WorkbenchChlideBean item) {
-        viewHolder.setText(R.id.icName,item.getName())
- .setBackgroundResource(R.id.icName,item.getIcon());
+        viewHolder.setText(R.id.icName,item.getName()).setImageResource(R.id.ivTitleIC, item.getIcon());
     }
 }
