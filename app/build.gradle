@@ -76,4 +76,8 @@ dependencies {
     implementation 'com.youth.banner:banner:2.1.0'
     //指示器框架
     implementation 'com.github.hackware1993:MagicIndicator:1.7.0' // for androidx
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
 }

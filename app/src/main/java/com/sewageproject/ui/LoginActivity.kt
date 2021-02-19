@@ -1,18 +1,22 @@
 package com.sewageproject.ui
 
+import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.text.method.TransformationMethod
 import com.sewageproject.R
 import com.sewageproject.base.BaseActivity
+import com.sewageproject.base.BaseMvpActivity
 import com.sewageproject.databinding.SigninactivityBinding
+import com.sewageproject.ui.presenter.LoginPresenter
+import com.sewageproject.utils.ActStartUtils
 
 
 /**
  * 登录
  */
-class SignInActivity :
-    BaseActivity<SigninactivityBinding>() {
+class LoginActivity :
+    BaseMvpActivity<SigninactivityBinding, LoginPresenter>() {
     override fun statusBarDark(): Boolean {
         return false
     }
@@ -21,7 +25,8 @@ class SignInActivity :
         return R.layout.signinactivity
     }
 
-    override fun initView() {}
+    override fun initView(savedInstanceState: Bundle?) {
+    }
     override fun initData() {}
     override fun initListener() {
         binding?.ivEyE?.setOnClickListener {
@@ -39,8 +44,12 @@ class SignInActivity :
             binding?.tvRadio?.isSelected = binding?.tvRadio?.isSelected != true
         }
         binding?.tvCommit?.setOnClickListener {
-            toNextPage(MainActivity::class.java)
+            ActStartUtils.startAct(this,MainActivity::class.java)
             finish()
         }
+    }
+
+    override fun createPresenter(): LoginPresenter {
+        return LoginPresenter()
     }
 }

@@ -1,81 +1,83 @@
 package com.sewageproject.base
-
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import com.gyf.immersionbar.ImmersionBar
-import com.sewageproject.R
+import com.sewageproject.utils.EventBusUtil
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 
-abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity() {
-    var binding: V? = null
+abstract class BaseActivity: RxAppCompatActivity(), IActivity{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, getResourceId())
-        ImmersionBar.with(this).statusBarDarkFont(statusBarDark()).keyboardEnable(true)
-            .navigationBarColor(R.color.white).init()
-        EventBus.getDefault().register(this)
-        initView()
+        if (isRegisterEventBus() && !EventBus.getDefault().isRegistered(this)) {
+            EventBusUtil.register(this)
+        }
+        initView(savedInstanceState)
         initData()
         initListener()
     }
-     @Subscribe
-     open fun mainEvent(event: MainEventBean?) {
 
-     }
 
     fun onBack(v: View){
          finish()
     }
-    override fun onDestroy() {
-        EventBus.getDefault().unregister(this)
-        binding = null
-        super.onDestroy()
-    }
-    open fun toNextPage(cls: Class<*>?) {
-        val intent = Intent()
-        intent.setClass(this, cls!!)
-        startActivity(intent)
-    }
-    open fun toNextPage(cls: Class<*>?, bundle: Bundle?) {
-        val intent = Intent()
-        intent.putExtras(bundle!!)
-        intent.setClass(this, cls!!)
-        startActivity(intent)
-    }
-
-    open fun toNextPage(cls: Class<*>?, requestCode: Int) {
-        val intent = Intent()
-        intent.setClass(this, cls!!)
-        startActivityForResult(intent, requestCode)
-    }
-
-    open fun toNextPage(cls: Class<*>?, bundle: Bundle?, requestCode: Int) {
-        val intent = Intent()
-        intent.putExtras(bundle!!)
-        intent.setClass(this, cls!!)
-        startActivityForResult(intent, requestCode)
-    }
     /**
-     * 设置布局id
-     * @return
+     * 每次启动activity都会调用此方法,此处主要为了解决快速点击跳转Activity重复打开的问题
      */
-    protected abstract fun getResourceId(): Int
-    protected abstract fun initView()
-    protected abstract fun initData()
-    protected abstract fun initListener()
+    @SuppressLint("RestrictedApi")
+    override fun startActivityForResult(intent: Intent?, requestCode: Int, options: Bundle?) {
+        if (checkDoubleClick(intent)) {
+            super.startActivityForResult(intent, requestCode, options)
+        }
+    }
 
+    override fun isFull(): Boolean {
+        return true
+    }
+
+    override fun isRegisterEventBus(): Boolean {
+        return false
+    }
     /**
      * 状态栏字体深色或亮色
-     *
-     *
      * isDarkFont true 深色
      */
     protected open fun statusBarDark(): Boolean {
         return true
+    }
+    private var mActivityJumpTag //activity跳转tag
+            : String? = null
+    private var mClickTime //activity跳转时间
+            : Long = 0
+    /**
+     * 检查是否重复跳转，不需要则重写方法并返回true
+     */
+    protected open fun checkDoubleClick(intent: Intent?): Boolean {
+
+        // 默认检查通过
+        var result = true
+        // 标记对象
+        val tag: String? = when {
+            intent?.component != null -> { // 显式跳转
+                intent.component!!.className
+            }
+            intent?.action != null -> { // 隐式跳转
+                intent.action
+            }
+            else -> {
+                return true
+            }
+        }
+        if (tag == mActivityJumpTag && mClickTime >= SystemClock.uptimeMillis() - 500) {
+            // 检查不通过
+            result = false
+        }
+
+        // 记录启动标记和时间
+        mActivityJumpTag = tag
+        mClickTime = SystemClock.uptimeMillis()
+        return result
     }
 }

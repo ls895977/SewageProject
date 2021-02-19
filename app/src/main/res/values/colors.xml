@@ -6,7 +6,8 @@
     <color name="colorPrimary">#e84263</color>
     <color name="colorPrimaryDark">#e84263</color>
     <color name="colorAccent">#e84263</color>
-
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_222222">#222222</color>
     <color name="windowBackground">#f1f1f1</color>
     <color name="style_color">@color/text_color_f54f76</color>
     <color name="transparent">#00000000</color>
