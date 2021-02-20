@@ -1,5 +1,5 @@
 package com.sewageproject.utils;
-import com.sewageproject.bean.Event;
+import com.sewageproject.net.bean.Event;
 
 import org.greenrobot.eventbus.EventBus;
 

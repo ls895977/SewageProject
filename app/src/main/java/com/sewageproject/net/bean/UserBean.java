@@ -1,4 +1,4 @@
-package com.sewageproject.bean;
+package com.sewageproject.net.bean;
 
 public  class UserBean extends BaseResult{
     /**

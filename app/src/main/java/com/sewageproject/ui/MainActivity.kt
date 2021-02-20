@@ -9,13 +9,12 @@ import com.sewageproject.base.BaseActivity
 import com.sewageproject.base.BaseMvpActivity
 import com.sewageproject.base.BasePresenter
 import com.sewageproject.databinding.ActivityMainBinding
-import com.sewageproject.ui.fragment.SupervisoryControlFragment
-import com.sewageproject.ui.fragment.VideoFragment
-import com.sewageproject.ui.fragment.WaterRegimeFragment
-import com.sewageproject.ui.fragment.WorkbenchFragment
+import com.sewageproject.ui.fragment.SupervisoryControlMvpFragment
+import com.sewageproject.ui.fragment.VideoMvpFragment
+import com.sewageproject.ui.fragment.WaterRegimeMvpFragment
+import com.sewageproject.ui.fragment.WorkbenchMvpFragment
 import com.sewageproject.ui.presenter.MainPresenter
 import com.shuyu.gsyvideoplayer.GSYVideoManager
-import com.trello.rxlifecycle2.LifecycleTransformer
 import java.util.*
 
 class MainActivity : BaseMvpActivity<ActivityMainBinding, MainPresenter?>() {
@@ -38,10 +37,10 @@ class MainActivity : BaseMvpActivity<ActivityMainBinding, MainPresenter?>() {
     }
 
     override fun initData() {
-        fgtData.add(WaterRegimeFragment())
-        fgtData.add(SupervisoryControlFragment())
-        fgtData.add(WorkbenchFragment())
-        fgtData.add(VideoFragment())
+        fgtData.add(WaterRegimeMvpFragment())
+        fgtData.add(SupervisoryControlMvpFragment())
+        fgtData.add(WorkbenchMvpFragment())
+        fgtData.add(VideoMvpFragment())
         supportFragmentManager.beginTransaction().add(R.id.myFrame, fgtData[0])
             .add(R.id.myFrame, fgtData[1]).hide(fgtData[1]).show(fgtData[0]).commit()
         setCurrent(0)

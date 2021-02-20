@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.google.gson.Gson;
 import com.sewageproject.base.MyApplication;
-import com.sewageproject.bean.UserBean;
+import com.sewageproject.net.bean.UserBean;
 
 import java.util.Collections;
 import java.util.HashMap;

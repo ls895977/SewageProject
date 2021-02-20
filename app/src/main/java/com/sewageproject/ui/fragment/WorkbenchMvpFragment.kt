@@ -1,8 +1,10 @@
 package com.sewageproject.ui.fragment
 
+import android.os.Bundle
 import android.view.View
 import com.sewageproject.R
-import com.sewageproject.base.BaseFragment
+import com.sewageproject.base.BaseMvpFragment
+import com.sewageproject.base.BasePresenter
 import com.sewageproject.databinding.WorkbenchfragmentBinding
 import com.sewageproject.ui.fragment.adapter.WorkbenchAdapter
 import com.sewageproject.ui.fragment.bean.WorkbenchBean
@@ -11,20 +13,20 @@ import kotlinx.android.synthetic.main.titlebar.view.*
 /**
  * 工作台
  */
-class WorkbenchFragment :
-    BaseFragment<WorkbenchfragmentBinding>() {
+class WorkbenchMvpFragment :
+    BaseMvpFragment<WorkbenchfragmentBinding,BasePresenter<*>?>() {
     private var workList:MutableList<WorkbenchBean> = ArrayList()
     override fun statusBarDark(): Boolean {
         return false
     }
-    override fun getResourceId(): Int {
-        return R.layout.workbenchfragment
-    }
 
-    override fun initView() {
+    override fun initView(savedInstanceState: Bundle?) {
         binding?.workTitle?.leftBack?.visibility= View.GONE
         binding?.workTitle?.tvTitle?.text="工作台"
         binding?.workTitle?.ivRight?.visibility= View.GONE
+    }
+    override fun getResourceId(): Int {
+        return R.layout.workbenchfragment
     }
     override fun initData() {
         val childList:MutableList<WorkbenchBean.WorkbenchChlideBean> = ArrayList()
@@ -56,4 +58,12 @@ class WorkbenchFragment :
 
     }
     override fun initListener() {}
+
+    /**
+     * create presenter
+     * @return presenter
+     */
+    override fun createPresenter(): BasePresenter<*>? {
+      return null
+    }
 }

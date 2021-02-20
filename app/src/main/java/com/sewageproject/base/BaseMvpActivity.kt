@@ -13,7 +13,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent
 
 abstract class BaseMvpActivity<V : ViewDataBinding, P : BasePresenter<*>?> : BaseActivity(), BaseView {
     var binding: V? = null
-    private var mPresenter: P? = null
+     var mPresenter: P? = null
     var loadingDialog: LoadingDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, getResourceId())

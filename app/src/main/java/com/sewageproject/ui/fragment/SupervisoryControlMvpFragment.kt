@@ -2,14 +2,16 @@ package com.sewageproject.ui.fragment
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.sewageproject.R
-import com.sewageproject.base.BaseFragment
+import com.sewageproject.base.BaseMvpFragment
+import com.sewageproject.base.BasePresenter
 import com.sewageproject.databinding.SupervisorycontrolfragmentBinding
 import com.sewageproject.ui.fragment.adapter.ExamplePagerAdapter
-import com.sewageproject.ui.fragment.supefgt.SupervisoryControlChlideFragment
+import com.sewageproject.ui.fragment.supefgt.SupervisoryControlChlideMvpFragment
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -25,8 +27,8 @@ import java.util.*
 /**
  * 监控
  */
-class SupervisoryControlFragment :
-    BaseFragment<SupervisorycontrolfragmentBinding>() {
+class SupervisoryControlMvpFragment :
+    BaseMvpFragment<SupervisorycontrolfragmentBinding, BasePresenter<*>?>() {
     private val mDataList: MutableList<String> =
         ArrayList()
     private val mDataFragment: MutableList<Fragment> =
@@ -35,16 +37,18 @@ class SupervisoryControlFragment :
         return false
     }
 
+    override fun initView(savedInstanceState: Bundle?) {
+    }
+
     override fun getResourceId(): Int {
         return R.layout.supervisorycontrolfragment
     }
 
-    override fun initView() {}
     override fun initData() {
         mDataList.add("镇级(11)")
         mDataList.add("村级(30)")
-        mDataFragment.add(SupervisoryControlChlideFragment())
-        mDataFragment.add(SupervisoryControlChlideFragment())
+        mDataFragment.add(SupervisoryControlChlideMvpFragment())
+        mDataFragment.add(SupervisoryControlChlideMvpFragment())
         val mExamplePagerAdapter = ExamplePagerAdapter(activity?.supportFragmentManager!!,mDataFragment)
         binding!!.viewPager.adapter = mExamplePagerAdapter
         initMagicIndicator()
@@ -99,5 +103,13 @@ class SupervisoryControlFragment :
             }
         }
         ViewPagerHelper.bind(binding!!.magicIndicator, binding!!.viewPager)
+    }
+
+    /**
+     * create presenter
+     * @return presenter
+     */
+    override fun createPresenter(): BasePresenter<*>? {
+      return null
     }
 }

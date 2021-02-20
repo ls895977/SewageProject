@@ -1,13 +1,15 @@
 package com.sewageproject.ui.fragment.supefgt
 
+import android.os.Bundle
 import com.sewageproject.R
-import com.sewageproject.base.BaseFragment
+import com.sewageproject.base.BaseMvpFragment
+import com.sewageproject.base.BasePresenter
 import com.sewageproject.databinding.SupervisorycontrolchlidefragmentBinding
 import com.sewageproject.ui.fragment.adapter.SupervisoryControlAdapter
 import com.sewageproject.ui.fragment.bean.SupervisoryControlBean
 
-class SupervisoryControlChlideFragment :
-    BaseFragment<SupervisorycontrolchlidefragmentBinding>() {
+class SupervisoryControlChlideMvpFragment :
+    BaseMvpFragment<SupervisorycontrolchlidefragmentBinding,BasePresenter<*>?>() {
     override fun statusBarDark(): Boolean {
         return false
     }
@@ -15,8 +17,7 @@ class SupervisoryControlChlideFragment :
         return  R.layout.supervisorycontrolchlidefragment
     }
 
-    override fun initView() {
-    }
+
     override fun initData() {
        val dataList:MutableList<SupervisoryControlBean> = ArrayList()
         dataList.add(SupervisoryControlBean())
@@ -34,5 +35,17 @@ class SupervisoryControlChlideFragment :
         binding?.mySmartRefreshLayout?.setOnLoadMoreListener {
             binding?.mySmartRefreshLayout?.finishLoadMore(2000)
         }
+    }
+
+    /**
+     * create presenter
+     * @return presenter
+     */
+    override fun createPresenter(): BasePresenter<*>? {
+      return null
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+
     }
 }

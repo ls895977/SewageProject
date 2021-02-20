@@ -1,8 +1,10 @@
 package com.sewageproject.ui.fragment
 
+import android.os.Bundle
 import android.view.View
 import com.sewageproject.R
-import com.sewageproject.base.BaseFragment
+import com.sewageproject.base.BaseMvpFragment
+import com.sewageproject.base.BasePresenter
 import com.sewageproject.databinding.WaterregimefragmentBinding
 import com.sewageproject.ui.fragment.adapter.SewageListAdapter
 import com.sewageproject.ui.fragment.adapter.WaterDataAdapter
@@ -13,8 +15,8 @@ import kotlinx.android.synthetic.main.titlebar.view.*
 /**
  * 水情
  */
-class WaterRegimeFragment :
-    BaseFragment<WaterregimefragmentBinding>() {
+class WaterRegimeMvpFragment :
+    BaseMvpFragment<WaterregimefragmentBinding, BasePresenter<*>?>() {
     override fun statusBarDark(): Boolean {
         return false
     }
@@ -23,11 +25,10 @@ class WaterRegimeFragment :
         return R.layout.waterregimefragment
     }
 
-    override fun initView() {
+    override fun initView(savedInstanceState: Bundle?) {
         binding?.waterTitle?.leftBack?.visibility= View.GONE
         binding?.waterTitle?.tvTitle?.text="水情"
         binding?.waterTitle?.ivRight?.setBackgroundResource(R.mipmap.ic_heard)
-
     }
 
     override fun initData() {
@@ -54,4 +55,9 @@ class WaterRegimeFragment :
 
     }
     override fun initListener() {}
+
+    override fun createPresenter(): BasePresenter<*>? {
+        return null
+    }
+
 }

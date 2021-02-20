@@ -1,5 +1,4 @@
 package com.sewageproject.ui
-
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -10,8 +9,6 @@ import com.sewageproject.base.BaseMvpActivity
 import com.sewageproject.databinding.SigninactivityBinding
 import com.sewageproject.ui.presenter.LoginPresenter
 import com.sewageproject.utils.ActStartUtils
-
-
 /**
  * 登录
  */
@@ -44,8 +41,9 @@ class LoginActivity :
             binding?.tvRadio?.isSelected = binding?.tvRadio?.isSelected != true
         }
         binding?.tvCommit?.setOnClickListener {
-            ActStartUtils.startAct(this,MainActivity::class.java)
-            finish()
+            mPresenter?.sysLogin("admin","sytech123")
+//            ActStartUtils.startAct(this,MainActivity::class.java)
+//            finish()
         }
     }
 

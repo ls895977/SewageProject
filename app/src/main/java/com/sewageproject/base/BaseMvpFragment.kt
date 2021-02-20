@@ -6,52 +6,62 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import com.gyf.immersionbar.ImmersionBar
 import com.sewageproject.R
-import kotlinx.coroutines.CoroutineScope
+import com.sewageproject.utils.EventBusUtil
+import com.trello.rxlifecycle2.LifecycleTransformer
+import com.trello.rxlifecycle2.android.FragmentEvent
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-
-/**
- *Created by wanghai
- *Date : 2020/12/23
- *Describe :
- */
-abstract class BaseFragment<V : ViewDataBinding>: Fragment() {
+abstract class BaseMvpFragment<V : ViewDataBinding,P : BasePresenter<*>?>: BaseFragment() {
     protected abstract fun getResourceId(): Int
-    protected abstract fun initView()
     protected abstract fun initData()
     protected abstract fun initListener()
+    protected abstract fun initView(savedInstanceState: Bundle?)
     protected open fun statusBarDark(): Boolean {
         return true
     }
-
     var binding: V? = null
-
+     var mPresenter: P? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, getResourceId(), null, false)
+        mPresenter = createPresenter()
         ImmersionBar.with(this).statusBarDarkFont(statusBarDark()).keyboardEnable(true)
             .navigationBarColor(R.color.white).init()
-        EventBus.getDefault().register(this)
+        if (isRegisterEventBus() && !EventBus.getDefault().isRegistered(this)) {
+            EventBusUtil.register(this)
+        }
+        initView(savedInstanceState)
+        initData()
+        initListener()
         return binding?.root
     }
+     fun isRegisterEventBus(): Boolean {
+        return false
+    }
+    /**
+     * create presenter
+     * @return presenter
+     */
+    protected abstract fun createPresenter(): P
 
+    open fun <B> getActLifeRecycle(): LifecycleTransformer<B>? {
+        return bindUntilEvent(FragmentEvent.DESTROY)
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initView()
         initListener()
         initData()
     }
-
     override fun onDestroyView() {
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this)
+        if (isRegisterEventBus() && EventBus.getDefault()
+                .isRegistered(this)
+        ) {
+            EventBusUtil.unregister(this)
         }
         binding = null
+        if (mPresenter != null) {
+            mPresenter?.detachView()
+        }
         super.onDestroyView()
-    }
-    @Subscribe
-    open fun fragmenEvent(event: MainEventBean?) {
     }
 }
