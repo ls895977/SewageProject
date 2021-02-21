@@ -3,17 +3,23 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.text.method.TransformationMethod
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelStore
 import com.sewageproject.R
 import com.sewageproject.base.BaseActivity
 import com.sewageproject.base.BaseMvpActivity
 import com.sewageproject.databinding.SigninactivityBinding
+import com.sewageproject.ui.constant.LoginContract
 import com.sewageproject.ui.presenter.LoginPresenter
 import com.sewageproject.utils.ActStartUtils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 /**
  * 登录
  */
 class LoginActivity :
-    BaseMvpActivity<SigninactivityBinding, LoginPresenter>() {
+    BaseMvpActivity<SigninactivityBinding, LoginPresenter>(), LoginContract.View {
     override fun statusBarDark(): Boolean {
         return false
     }

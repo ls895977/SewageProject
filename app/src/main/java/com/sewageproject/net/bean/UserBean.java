@@ -1,6 +1,8 @@
 package com.sewageproject.net.bean;
 
-public  class UserBean extends BaseResult{
+import java.io.Serializable;
+
+public  class UserBean implements Serializable {
     /**
      * id : 10001
      * userNumber : 8888888
