@@ -7,11 +7,11 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.sewageproject.R
-import com.sewageproject.base.BaseMvpFragment
-import com.sewageproject.base.BasePresenter
+import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolfragmentBinding
 import com.sewageproject.ui.fragment.adapter.ExamplePagerAdapter
 import com.sewageproject.ui.fragment.supefgt.SupervisoryControlChlideMvpFragment
+import com.sewageproject.ui.fragment.viewmodel.SupervisoryControlViewModel
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -28,22 +28,26 @@ import java.util.*
  * 监控
  */
 class SupervisoryControlMvpFragment :
-    BaseMvpFragment<SupervisorycontrolfragmentBinding, BasePresenter<*>?>() {
+    BaseVmFragment<SupervisorycontrolfragmentBinding, SupervisoryControlViewModel>() {
     private val mDataList: MutableList<String> =
         ArrayList()
     private val mDataFragment: MutableList<Fragment> =
             ArrayList()
-    override fun statusBarDark(): Boolean {
-        return false
+
+    /**
+     * 获取ViewModel的class
+     */
+    override fun viewModelClass(): Class<SupervisoryControlViewModel> = SupervisoryControlViewModel::class.java
+
+    /**
+     * 初始化view相关
+     */
+    override fun initView() {
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun getViewBinding(): SupervisorycontrolfragmentBinding {
+      return SupervisorycontrolfragmentBinding.inflate(layoutInflater)
     }
-
-    override fun getResourceId(): Int {
-        return R.layout.supervisorycontrolfragment
-    }
-
     override fun initData() {
         mDataList.add("镇级(11)")
         mDataList.add("村级(30)")
@@ -54,12 +58,11 @@ class SupervisoryControlMvpFragment :
         initMagicIndicator()
     }
 
-    override fun initListener() {
-        binding?.ivRight?.setOnClickListener {
+    override fun setListener() {
+                binding?.ivRight?.setOnClickListener {
 
 
         }
-
     }
     private fun initMagicIndicator() {
         val commonNavigator = CommonNavigator(context)
@@ -103,13 +106,5 @@ class SupervisoryControlMvpFragment :
             }
         }
         ViewPagerHelper.bind(binding!!.magicIndicator, binding!!.viewPager)
-    }
-
-    /**
-     * create presenter
-     * @return presenter
-     */
-    override fun createPresenter(): BasePresenter<*>? {
-      return null
     }
 }

@@ -1,6 +1,6 @@
 package com.sewageproject.net.bean
 
-data class LogonBean(
+data class User(
     val departs: List<Any>,
     val multi_depart: Int,
     val sysAllDictItems: SysAllDictItems,
@@ -114,7 +114,8 @@ data class UserInfo(
     val updateTime: String,
     val userIdentity: Int,
     val username: String,
-    val workNo: String
+    val workNo: String,
+    var pwd:String
 )
 
 data class ActivitiSync(

@@ -1,5 +1,4 @@
 package com.sewageproject.utils;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
@@ -7,7 +6,7 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.google.gson.Gson;
 import com.sewageproject.base.MyApplication;
-import com.sewageproject.net.bean.UserBean;
+import com.sewageproject.net.bean.User;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -220,10 +219,10 @@ public class SPUtils {
      * 获取本地用户信息
      * @return
      */
-    public UserBean getUserInfo() {
+    public User getMyUserInfo() {
         String loginStr = getString(SpConstant.USER_INFO);
         if (TextUtils.isEmpty(loginStr)) return null;
-        return new Gson().fromJson(loginStr, UserBean.class);
+        return new Gson().fromJson(loginStr, User.class);
     }
 
     /**

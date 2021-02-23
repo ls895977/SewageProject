@@ -2,22 +2,14 @@ package com.sewageproject.ui.fragment.supefgt
 
 import android.os.Bundle
 import com.sewageproject.R
-import com.sewageproject.base.BaseMvpFragment
-import com.sewageproject.base.BasePresenter
+import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolchlidefragmentBinding
 import com.sewageproject.ui.fragment.adapter.SupervisoryControlAdapter
 import com.sewageproject.ui.fragment.bean.SupervisoryControlBean
+import com.sewageproject.ui.fragment.supefgt.viewmodel.SupervisoryControlChlideViewModel
 
 class SupervisoryControlChlideMvpFragment :
-    BaseMvpFragment<SupervisorycontrolchlidefragmentBinding,BasePresenter<*>?>() {
-    override fun statusBarDark(): Boolean {
-        return false
-    }
-    override fun getResourceId(): Int {
-        return  R.layout.supervisorycontrolchlidefragment
-    }
-
-
+    BaseVmFragment<SupervisorycontrolchlidefragmentBinding, SupervisoryControlChlideViewModel>() {
     override fun initData() {
        val dataList:MutableList<SupervisoryControlBean> = ArrayList()
         dataList.add(SupervisoryControlBean())
@@ -28,7 +20,8 @@ class SupervisoryControlChlideMvpFragment :
         binding?.superRecyclerView?.adapter= SupervisoryControlAdapter(dataList)
 
     }
-    override fun initListener() {
+
+    override fun setListener() {
         binding?.mySmartRefreshLayout?.setOnRefreshListener {
             binding?.mySmartRefreshLayout?.finishRefresh(2000)
         }
@@ -38,14 +31,16 @@ class SupervisoryControlChlideMvpFragment :
     }
 
     /**
-     * create presenter
-     * @return presenter
+     * 获取ViewModel的class
      */
-    override fun createPresenter(): BasePresenter<*>? {
-      return null
+    override fun viewModelClass(): Class<SupervisoryControlChlideViewModel> = SupervisoryControlChlideViewModel::class.java
+    /**
+     * 初始化view相关
+     */
+    override fun initView() {
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-
+    override fun getViewBinding(): SupervisorycontrolchlidefragmentBinding {
+     return SupervisorycontrolchlidefragmentBinding.inflate(layoutInflater)
     }
 }

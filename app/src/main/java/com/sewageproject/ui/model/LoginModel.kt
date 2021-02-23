@@ -1,46 +1,39 @@
 package com.sewageproject.ui.model
-import android.util.Log
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
+
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.sewageproject.base.BaseModel1
-import com.sewageproject.net.TranslateService
-import com.sewageproject.net.bean.BaseResult
-import com.sewageproject.ui.constant.LoginContract
-import kotlinx.coroutines.launch
+import com.google.gson.Gson
+import com.sewageproject.base.BaseViewModel
+import com.sewageproject.utils.SPUtils
+import com.sewageproject.utils.SpConstant
+import com.yechaoa.wanandroid_jetpack.data.http.RetrofitClient
+import java.util.*
 
-class LoginModel : BaseModel1(), LoginContract.Model{
-    private val dailyWordLiveData: MutableLiveData<Result<BaseResult<String>>> = MutableLiveData()
-    /**
-     * 账号密码登录
-     * @param username 用户名
-     * @param password 密码
-     */
-    override fun sysLogin(username: String, password: String) {
-        viewModelScope.launch {
-            val result = try {
-                // 网络返回成功
-                    val hashMap=HashMap<String,String>()
-                hashMap["username"] = username
-                hashMap["password"] = password
-                Result.success(TranslateService.getApi().requestDailyWord(parsJson(hashMap)))
-            } catch (e: Exception) {
-                // 网络返回失败
-                Result.failure(e)
-            }
-            // 发射数据，之后观察者就会收到数据
-            // 注意这里是主线程，直接用setValue()即可
-            dailyWordLiveData.value = result
-        }
-//        dailyWordLiveData.observe(this) { result ->
-//            val dailyWordResult = result.getOrNull()
-//            if (null == dailyWordResult) {
-//                Log.e("aa","-------获取失败")
-//                return@observe
-//            }
-//            Log.e("aa","-------获取成功==="+dailyWordResult.result)
-//        }
+class LoginModel : BaseViewModel() {
+    private val loginRepository by lazy { RetrofitClient.getApiService() }
+    private val myLoginState = MutableLiveData<Boolean>()
+    val loginState: LiveData<Boolean> = myLoginState
+    fun login(username: String?, password: String?) {
+        val job = launch(
+            block = {
+                val map: MutableMap<String, String> =
+                    HashMap()
+                map["username"] = "admin"
+                map["password"] = "sytech123"
+                val loginData = loginRepository.login(toRequestBody(map))
+                loginData.result().userInfo.pwd= password.toString()
+                myLoginState.value = loginData.code() == 200
+                //保存用户信息
+                SPUtils.getInstance().put(SpConstant.USER_INFO, Gson().toJson(loginData.result()))
+            },
+            error = {
+                myLoginState.value = false
+            },
+            cancel = {
+
+            },
+            showErrorToast = false
+        )
+
     }
-
 }

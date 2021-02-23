@@ -1,31 +1,26 @@
 package com.sewageproject.ui
-import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.sewageproject.R
-import com.sewageproject.base.BaseActivity
-import com.sewageproject.base.BaseMvpActivity
-import com.sewageproject.base.BasePresenter
+import com.sewageproject.base.BaseVmActivity
 import com.sewageproject.databinding.ActivityMainBinding
 import com.sewageproject.ui.fragment.SupervisoryControlMvpFragment
 import com.sewageproject.ui.fragment.VideoMvpFragment
 import com.sewageproject.ui.fragment.WaterRegimeMvpFragment
 import com.sewageproject.ui.fragment.WorkbenchMvpFragment
-import com.sewageproject.ui.presenter.MainPresenter
+import com.sewageproject.ui.model.MainViewModel
 import com.shuyu.gsyvideoplayer.GSYVideoManager
-import java.util.*
-
-class MainActivity : BaseMvpActivity<ActivityMainBinding, MainPresenter?>() {
+class MainActivity : BaseVmActivity<ActivityMainBinding, MainViewModel>() {
+    override fun getViewBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
+    override fun viewModelClass(): Class<MainViewModel> = MainViewModel::class.java
     private val tv = arrayOfNulls<TextView>(4)
     private val im = arrayOfNulls<ImageView>(4)
     var fgtData: MutableList<Fragment> = ArrayList()
-    override fun getResourceId(): Int {
-        return R.layout.activity_main
-    }
-
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun initView() {
         im[0] = findViewById(R.id.ivShuiQi)
         im[1] = findViewById(R.id.ivJK)
         im[2] = findViewById(R.id.ivgzt)
@@ -34,10 +29,11 @@ class MainActivity : BaseMvpActivity<ActivityMainBinding, MainPresenter?>() {
         tv[1] = findViewById(R.id.tvJK)
         tv[2] = findViewById(R.id.tvgzt)
         tv[3] = findViewById(R.id.tvsp)
+
     }
 
     override fun initData() {
-        fgtData.add(WaterRegimeMvpFragment())
+                fgtData.add(WaterRegimeMvpFragment())
         fgtData.add(SupervisoryControlMvpFragment())
         fgtData.add(WorkbenchMvpFragment())
         fgtData.add(VideoMvpFragment())
@@ -46,27 +42,26 @@ class MainActivity : BaseMvpActivity<ActivityMainBinding, MainPresenter?>() {
         setCurrent(0)
     }
 
-    override fun initListener() {
-        binding?.itemBut1?.setOnClickListener {
+    override fun setListener() {
+        mBinding.itemBut1.setOnClickListener {
             setCurrent(0)
             GSYVideoManager.onPause()
         }
-        binding?.itemBut2?.setOnClickListener {
+        mBinding.itemBut2.setOnClickListener {
             setCurrent(1)
             GSYVideoManager.onPause()
         }
-        binding?.itemBut3?.setOnClickListener {
+        mBinding.itemBut3.setOnClickListener {
         }
-        binding?.itemBut4?.setOnClickListener {
+        mBinding.itemBut4.setOnClickListener {
             setCurrent(2)
             GSYVideoManager.onPause()
         }
-        binding?.itemBut5?.setOnClickListener {
+        mBinding.itemBut5.setOnClickListener {
             setCurrent(3)
             GSYVideoManager.onResume()
         }
     }
-
     var currentTabIndex = 0
    private fun setCurrent(indext: Int) {
         if (currentTabIndex != indext) {
@@ -88,9 +83,4 @@ class MainActivity : BaseMvpActivity<ActivityMainBinding, MainPresenter?>() {
         super.onDestroy()
         GSYVideoManager.releaseAllVideos()
     }
-
-    override fun createPresenter(): MainPresenter? {
-        return MainPresenter()
-    }
-
 }
