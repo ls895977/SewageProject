@@ -9,12 +9,16 @@
     <include
         android:id="@+id/waterTitle"
         layout="@layout/titlebar" />
-
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/mySmartRefreshLayout"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waterTitle"
+        android:layout_height="0dip">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waterTitle">
+        android:layout_height="match_parent"
+      >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -333,4 +337,5 @@
                 tools:listitem="@layout/item_sewagelist" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

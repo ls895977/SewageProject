@@ -26,5 +26,17 @@ data class Record(
     val plantAreaName:String,
     val id:String,
     val content:String,
-    val plantAreaId:String
+    val plantAreaId:String,
+    //水情 水情监控-实时数据
+    val canUse: Boolean,
+    val idWaterInDai: String,
+    val idWaterOutDai: String,
+    val name: String,
+    val online: Boolean,
+    val plantAreaTypeCanUse: Boolean,
+    val plantAreaTypeId: String,
+    val plantAreaTypeName: String,
+    val uid: String,
+    val vars: Vars,
+    val varsDict: VarsDict
 )

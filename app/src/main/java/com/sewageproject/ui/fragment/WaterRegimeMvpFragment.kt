@@ -9,6 +9,7 @@ import com.sewageproject.ui.fragment.viewmodel.WaterRegimeViewModel
 import com.sewageproject.utils.GlideUtils
 import com.sewageproject.utils.SPUtils
 
+
 /**
  * 水情
  */
@@ -22,6 +23,24 @@ class WaterRegimeMvpFragment :
         return WaterregimefragmentBinding.inflate(layoutInflater)
     }
 
+    override fun setListener() {
+        binding?.mySmartRefreshLayout?.autoRefresh()
+        //刷新的监听事件
+        binding?.mySmartRefreshLayout?.setOnRefreshListener { _ ->
+            mViewModel.countCountSum()
+            mViewModel.countWarn()
+            mViewModel.countRepair()
+            mViewModel.countInspection()
+            mViewModel.countWorkInfoList()
+            //请求数据
+//            refreshLayout.finishRefresh() //刷新完成
+        }
+        //加载的监听事件
+        binding?.mySmartRefreshLayout?.setOnLoadMoreListener { refreshLayout ->
+            refreshLayout.finishLoadMore() //加载完成
+            refreshLayout.finishLoadMoreWithNoMoreData() //全部加载完成,没有数据了调用此方法
+        }
+    }
     /**
      * 初始化view相关
      */
@@ -31,8 +50,8 @@ class WaterRegimeMvpFragment :
         binding?.waterTitle?.ivRight?.let {
             context?.let { it1 ->
                 GlideUtils.headPortrait(
-                    it1, it,
-                    SPUtils.getInstance().myUserInfo.userInfo.avatar
+                        it1, it,
+                        SPUtils.getInstance().myUserInfo.userInfo.avatar
                 )
             }
         }
@@ -48,34 +67,29 @@ class WaterRegimeMvpFragment :
         sewageList.add(SewageListBean())
         sewageList.add(SewageListBean())
         binding?.sewageListRecyclerView?.adapter = SewageListAdapter(sewageList)
-        mViewModel.countCountSum()
-        mViewModel.countWarn()
-        mViewModel.countRepair()
-        mViewModel.countInspection()
-        mViewModel.countWorkInfoList()
     }
 
     override fun observe() {
-        mViewModel.countWarnNum.observe(this,{
+        mViewModel.countWarnNum.observe(this, {
             binding?.tvCountWarn?.text = "$it%"
-            binding?.guZhangBar?.progress=it
+            binding?.guZhangBar?.progress = it
         })
-        mViewModel.countRepairNum.observe(this,{
+        mViewModel.countRepairNum.observe(this, {
             binding?.tvCountRepair?.text = "$it%"
-            binding?.guWeiYangr?.progress=it
+            binding?.guWeiYangr?.progress = it
         })
-        mViewModel.countInspectionNum.observe(this,{
+        mViewModel.countInspectionNum.observe(this, {
             binding?.tvCountInspection?.text = "$it%"
-            binding?.guXunJian?.progress=it
+            binding?.guXunJian?.progress = it
         })
-        mViewModel.countCountSumData.observe(this,{
-                    binding?.waterDataRecyclerView?.adapter = WaterDataAdapter(it)
+        mViewModel.countCountSumData.observe(this, {
+            binding?.waterDataRecyclerView?.adapter = WaterDataAdapter(it)
         })
-        mViewModel.countWorkInfoListBean.observe(this,{
-            if(it.records.size>99){
-                binding?.workNum?.text="99+"
-            }else{
-                binding?.workNum?.text=it.records.size.toString()
+        mViewModel.countWorkInfoListBean.observe(this, {
+            if (it.records.size > 99) {
+                binding?.workNum?.text = "99+"
+            } else {
+                binding?.workNum?.text = it.records.size.toString()
             }
         })
     }

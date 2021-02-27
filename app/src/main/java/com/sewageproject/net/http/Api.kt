@@ -6,6 +6,7 @@ import com.sewageproject.net.bean.User
 import com.sewageproject.ui.fragment.bean.CountCountSumBean
 import com.sewageproject.ui.fragment.bean.CountWarnBean
 import com.sewageproject.ui.fragment.bean.CountWorkInfoListBean
+import com.sewageproject.ui.fragment.bean.WuShuiQueryTownBean
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -44,4 +45,8 @@ interface Api {
     //水情 查询工作信息
     @GET("count/workInfo/list")
     suspend fun countWorkInfoList(): BaseBean<CountWorkInfoListBean>
+
+    //水情 水情监控-实时数据
+    @GET("wushui/plantAreaWaterState/queryTown")
+    suspend fun wuShuiQueryTown(@Body requestBody: RequestBody): BaseBean<WuShuiQueryTownBean>
 }

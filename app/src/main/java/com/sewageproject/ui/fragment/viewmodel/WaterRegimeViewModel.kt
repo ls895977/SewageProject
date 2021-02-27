@@ -3,10 +3,7 @@ package com.sewageproject.ui.fragment.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.sewageproject.base.BaseViewModel
 import com.sewageproject.net.http.RetrofitClient
-import com.sewageproject.ui.fragment.bean.CountCountSumBean
-import com.sewageproject.ui.fragment.bean.CountWorkInfoListBean
-import com.sewageproject.ui.fragment.bean.Record
-import com.sewageproject.ui.fragment.bean.WaterDataBean
+import com.sewageproject.ui.fragment.bean.*
 
 class WaterRegimeViewModel:BaseViewModel(){
     private val waterApi by lazy { RetrofitClient.getApiService() }
@@ -72,8 +69,17 @@ class WaterRegimeViewModel:BaseViewModel(){
                  countWorkInfoListBean.value=  waterApi.countWorkInfoList().result()
              }
          )
-
-
     }
+    val wuShuiQueryTownBean = MutableLiveData<WuShuiQueryTownBean>()
+    /**
+     * 水情监控-实时数据
+     */
+    fun wuShuiQueryTown(){
+        launch(
+                block = {
 
+//                    wuShuiQueryTownBean.value=  waterApi.wuShuiQueryTown().result()
+                }
+        )
+    }
 }
