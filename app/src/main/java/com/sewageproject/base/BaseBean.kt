@@ -1,6 +1,6 @@
 package com.sewageproject.base
 
-import com.yechaoa.wanandroid_jetpack.data.http.ApiException
+import com.sewageproject.net.http.ApiException
 
 /**
  * Created by yechaoa on 2020/2/4.

@@ -1,13 +1,17 @@
-package com.yechaoa.wanandroid_jetpack.data.http
+package com.sewageproject.net.http
 
 import android.util.Log
-import com.sewageproject.net.http.Api
 import com.sewageproject.net.http.interceptor.AddCookiesInterceptor
 import com.sewageproject.net.http.interceptor.ReceivedCookiesInterceptor
+import com.sewageproject.utils.SPUtils
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 /**
@@ -27,10 +31,20 @@ object RetrofitClient {
     }
 
     init {
-
-        val loggingInterceptor = HttpLoggingInterceptor { Log.d("httpLog", it) }
+        val mTokenInterceptor = Interceptor { chain ->
+            val originalRequest: Request = chain.request()
+            var authorised: Request?
+            if(SPUtils.getInstance().myUserInfo!=null) {
+                authorised = originalRequest.newBuilder()
+                    .header("X-Access-Token", SPUtils.getInstance().myUserInfo.token)
+                    .build()
+                chain.proceed(authorised)
+            }else{
+                chain.proceed(originalRequest);
+            }
+        }
+        val loggingInterceptor = HttpLoggingInterceptor { Log.e("httpLog", it) }
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
         /**OkHttpClient*/
         val okHttpClient = OkHttpClient.Builder()
             .callTimeout(CALL_TIMEOUT, TimeUnit.SECONDS)
@@ -40,13 +54,14 @@ object RetrofitClient {
             .addInterceptor(AddCookiesInterceptor())
             .addInterceptor(ReceivedCookiesInterceptor())
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(mTokenInterceptor)
             .retryOnConnectionFailure(true)
             .build()
 
         /**Retrofit*/
         val retrofit = Retrofit.Builder()
-            .client(okHttpClient)
             .baseUrl(Api.BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

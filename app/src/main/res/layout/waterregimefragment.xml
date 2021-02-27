@@ -76,10 +76,11 @@
                         app:progress="30" />
 
                     <TextView
+                        android:id="@+id/tvCountWarn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dip_5"
-                        android:text="30%"
+                        tools:text="30%"
                         android:textColor="@color/text_color_999999"
                         android:textSize="@dimen/fond_12sp"
                         app:layout_constraintRight_toLeftOf="@+id/guZhangBar"
@@ -116,10 +117,11 @@
                         app:progress="50" />
 
                     <TextView
+                        android:id="@+id/tvCountRepair"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dip_5"
-                        android:text="50%"
+                        tools:text="50%"
                         android:textColor="@color/text_color_999999"
                         android:textSize="@dimen/fond_12sp"
                         app:layout_constraintRight_toLeftOf="@+id/guWeiYangr"
@@ -156,10 +158,11 @@
                         app:progress="78" />
 
                     <TextView
+                        android:id="@+id/tvCountInspection"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dip_5"
-                        android:text="78%"
+                        tools:text="78%"
                         android:textColor="@color/text_color_999999"
                         android:textSize="@dimen/fond_12sp"
                         app:layout_constraintRight_toLeftOf="@+id/guXunJian"
@@ -206,7 +209,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dip_10"
-                        android:text="99+"
+                        tools:text="99+"
                         android:textColor="@color/text_color_FF4B4B"
                         android:textSize="@dimen/fond_15sp" />
                 </LinearLayout>

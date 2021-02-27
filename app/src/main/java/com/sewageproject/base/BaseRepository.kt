@@ -1,7 +1,7 @@
 package com.sewageproject.base
 
 import com.sewageproject.net.http.Api
-import com.yechaoa.wanandroid_jetpack.data.http.RetrofitClient
+import com.sewageproject.net.http.RetrofitClient
 
 /**
  * Created by yechaoa on 2020/2/4.

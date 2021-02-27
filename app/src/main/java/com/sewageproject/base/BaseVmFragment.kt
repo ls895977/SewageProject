@@ -7,7 +7,7 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BaseVmFragment<VB : ViewBinding, VM : BaseViewModel> : BaseFragment<VB>() {
 
-    private lateinit var mViewModel: VM
+     lateinit var mViewModel: VM
     private var lazyLoaded = false
 
     //分页参数

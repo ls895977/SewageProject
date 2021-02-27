@@ -3,7 +3,7 @@ package com.sewageproject.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yechaoa.wanandroid_jetpack.data.http.ApiException
+import com.sewageproject.net.http.ApiException
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.yechaoa.yutilskt.LogUtil

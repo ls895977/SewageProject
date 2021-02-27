@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.sewageproject.base.BaseViewModel
 import com.sewageproject.utils.SPUtils
 import com.sewageproject.utils.SpConstant
-import com.yechaoa.wanandroid_jetpack.data.http.RetrofitClient
+import com.sewageproject.net.http.RetrofitClient
 import java.util.*
 
 class LoginModel : BaseViewModel() {
