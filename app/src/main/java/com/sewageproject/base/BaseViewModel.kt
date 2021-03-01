@@ -9,6 +9,7 @@ import com.google.gson.JsonParseException
 import com.yechaoa.yutilskt.LogUtil
 import com.yechaoa.yutilskt.ToastUtil
 import kotlinx.coroutines.*
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -129,5 +130,15 @@ open class BaseViewModel : ViewModel() {
      */
     protected fun toRequestBody(params: Any?): RequestBody {
         return Gson().toJson(params).toRequestBody("application/json".toMediaTypeOrNull())
+    }
+
+    /**
+     * json提交 转RequestBody （表单提交 @FieldMap）
+     */
+    protected fun toRequestBodyGet(params: Any?): RequestBody {
+        return RequestBody.create(
+            "application/json;charset=utf-8".toMediaTypeOrNull(), Gson().toJson(params)
+        )
+//        return  MediaType.parse("application/json;charset=utf-8"), Gson().toJson(params)
     }
 }

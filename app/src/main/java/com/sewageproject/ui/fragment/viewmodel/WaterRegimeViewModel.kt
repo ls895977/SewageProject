@@ -1,9 +1,11 @@
 package com.sewageproject.ui.fragment.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.sewageproject.base.BaseViewModel
 import com.sewageproject.net.http.RetrofitClient
 import com.sewageproject.ui.fragment.bean.*
+import java.util.HashMap
 
 class WaterRegimeViewModel:BaseViewModel(){
     private val waterApi by lazy { RetrofitClient.getApiService() }
@@ -45,6 +47,7 @@ class WaterRegimeViewModel:BaseViewModel(){
                 block = {
                     val  countCountBean=waterApi.countCountSum().result()
                     if(countCountBean.records.isNotEmpty()){
+                        countData.clear()
                         countData.add(WaterDataBean(countCountBean.records[0].onlineNum.toString(), "在线站点"))
                         countData.add(WaterDataBean(countCountBean.records[0].offlineNum.toString(), "离线站点"))
                         countData.add(WaterDataBean(countCountBean.records[0].warnNum.toString(), "报警总数"))
@@ -74,11 +77,10 @@ class WaterRegimeViewModel:BaseViewModel(){
     /**
      * 水情监控-实时数据
      */
-    fun wuShuiQueryTown(){
+    fun wuShuiQueryTown(pageNo:Int){
         launch(
                 block = {
-
-//                    wuShuiQueryTownBean.value=  waterApi.wuShuiQueryTown().result()
+                    wuShuiQueryTownBean.value=waterApi.wuShuiQueryTown("10",pageNo.toString()).result()
                 }
         )
     }

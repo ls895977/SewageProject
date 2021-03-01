@@ -22,6 +22,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
+import java.lang.reflect.Array.newInstance
 import java.util.*
 
 /**
@@ -49,10 +50,14 @@ class SupervisoryControlMvpFragment :
       return SupervisorycontrolfragmentBinding.inflate(layoutInflater)
     }
     override fun initData() {
-        mDataList.add("镇级(11)")
-        mDataList.add("村级(30)")
+        mDataList.add("镇级")
+        mDataList.add("村级")
+//        mDataFragment.add(SupervisoryControlChlideMvpFragment.newInstance("Town"))
+//        mDataFragment.add(SupervisoryControlChlideMvpFragment.newInstance("Village"))
+
         mDataFragment.add(SupervisoryControlChlideMvpFragment())
         mDataFragment.add(SupervisoryControlChlideMvpFragment())
+
         val mExamplePagerAdapter = ExamplePagerAdapter(activity?.supportFragmentManager!!,mDataFragment)
         binding!!.viewPager.adapter = mExamplePagerAdapter
         initMagicIndicator()

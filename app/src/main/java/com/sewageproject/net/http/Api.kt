@@ -11,6 +11,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 
 /**
@@ -48,5 +49,5 @@ interface Api {
 
     //水情 水情监控-实时数据
     @GET("wushui/plantAreaWaterState/queryTown")
-    suspend fun wuShuiQueryTown(@Body requestBody: RequestBody): BaseBean<WuShuiQueryTownBean>
+    suspend fun wuShuiQueryTown(@Query("pageSize")pageSize:String,@Query("pageNo")pageNo:String ): BaseBean<WuShuiQueryTownBean>
 }

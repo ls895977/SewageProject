@@ -22,22 +22,24 @@ class WaterRegimeMvpFragment :
     override fun getViewBinding(): WaterregimefragmentBinding {
         return WaterregimefragmentBinding.inflate(layoutInflater)
     }
-
+   var pageNo=1
     override fun setListener() {
         binding?.mySmartRefreshLayout?.autoRefresh()
         //刷新的监听事件
         binding?.mySmartRefreshLayout?.setOnRefreshListener { _ ->
+            pageNo=1
             mViewModel.countCountSum()
             mViewModel.countWarn()
             mViewModel.countRepair()
             mViewModel.countInspection()
             mViewModel.countWorkInfoList()
-            //请求数据
-//            refreshLayout.finishRefresh() //刷新完成
+            mViewModel.wuShuiQueryTown(pageNo)
         }
         //加载的监听事件
         binding?.mySmartRefreshLayout?.setOnLoadMoreListener { refreshLayout ->
-            refreshLayout.finishLoadMore() //加载完成
+            pageNo++
+            mViewModel.wuShuiQueryTown(pageNo)
+
             refreshLayout.finishLoadMoreWithNoMoreData() //全部加载完成,没有数据了调用此方法
         }
     }
@@ -91,6 +93,20 @@ class WaterRegimeMvpFragment :
             } else {
                 binding?.workNum?.text = it.records.size.toString()
             }
+        })
+        mViewModel.wuShuiQueryTownBean.observe(this,{
+            if(pageNo==1){
+                //请求数据
+            binding?.mySmartRefreshLayout?.finishRefresh() //刷新完成
+            }else{
+                if(pageNo==it.total){
+
+
+                }else {
+                    binding?.mySmartRefreshLayout?.finishLoadMore() //加载完成
+                }
+            }
+
         })
     }
 }

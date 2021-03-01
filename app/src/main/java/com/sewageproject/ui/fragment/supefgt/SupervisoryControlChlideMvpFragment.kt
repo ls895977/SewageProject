@@ -1,7 +1,5 @@
 package com.sewageproject.ui.fragment.supefgt
-
 import android.os.Bundle
-import com.sewageproject.R
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolchlidefragmentBinding
 import com.sewageproject.ui.fragment.adapter.SupervisoryControlAdapter
@@ -10,7 +8,16 @@ import com.sewageproject.ui.fragment.supefgt.viewmodel.SupervisoryControlChlideV
 
 class SupervisoryControlChlideMvpFragment :
     BaseVmFragment<SupervisorycontrolchlidefragmentBinding, SupervisoryControlChlideViewModel>() {
+//     fun newInstance(plantAreaType: String?): SupervisoryControlChlideMvpFragment? {
+//        val args = Bundle()
+//        args.putString("plantAreaType", plantAreaType)
+//        val fragment = SupervisoryControlChlideMvpFragment()
+//        fragment.arguments = args
+//        return fragment
+//    }
+    private var plantAreaType=""
     override fun initData() {
+        plantAreaType= arguments?.getString("plantAreaType").toString()
        val dataList:MutableList<SupervisoryControlBean> = ArrayList()
         dataList.add(SupervisoryControlBean())
         dataList.add(SupervisoryControlBean())
