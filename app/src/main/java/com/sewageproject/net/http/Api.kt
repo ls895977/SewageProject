@@ -3,10 +3,7 @@ package com.sewageproject.net.http
 import com.sewageproject.base.BaseBean
 import com.sewageproject.base.BaseListBean
 import com.sewageproject.net.bean.User
-import com.sewageproject.ui.fragment.bean.CountCountSumBean
-import com.sewageproject.ui.fragment.bean.CountWarnBean
-import com.sewageproject.ui.fragment.bean.CountWorkInfoListBean
-import com.sewageproject.ui.fragment.bean.WuShuiQueryTownBean
+import com.sewageproject.ui.fragment.bean.*
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -50,4 +47,25 @@ interface Api {
     //水情 水情监控-实时数据
     @GET("wushui/plantAreaWaterState/queryTown")
     suspend fun wuShuiQueryTown(@Query("pageSize")pageSize:String,@Query("pageNo")pageNo:String ): BaseBean<WuShuiQueryTownBean>
+
+    //监控 带在线状态,报警数跟告警数)(权限)（监控-》镇级和村级）
+    //plantAreaAllTypeId 站点类型id
+    //plantAreaType  站点级别
+    //online 是否在线
+    //troubleIs 是否报障中
+    //warnIs 是否告警中
+    @GET("wushui/plantArea/queryWithOnlineAndWarnByUser")
+    suspend fun wuShuiQueryWithOnlineAndWarnByUser(@Query("pageSize")pageSize:String,
+                                                   @Query("pageNo")pageNo:String ,
+                                                   @Query("plantAreaType")plantAreaType:String,
+                                                   @Query("plantAreaAllTypeId")plantAreaAllTypeId:String,
+                                                   @Query("online")online:Boolean,
+                                                   @Query("troubleIs")troubleIs:Boolean,
+                                                   @Query("warnIs")warnIs:Boolean
+                                                         ): BaseBean<WuShuiQueryWithOnlineAndWarnByUserBean>
+    @GET("wushui/plantArea/queryWithOnlineAndWarnByUser")
+    suspend fun wuShuiQueryWithOnlineAndWarnByUser(@Query("pageSize")pageSize:String,
+                                                   @Query("pageNo")pageNo:String ,
+                                                   @Query("plantAreaType")plantAreaType:String
+    ): BaseBean<WuShuiQueryWithOnlineAndWarnByUserBean>
 }

@@ -1,36 +1,47 @@
 package com.sewageproject.ui.fragment.supefgt
 import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolchlidefragmentBinding
 import com.sewageproject.ui.fragment.adapter.SupervisoryControlAdapter
-import com.sewageproject.ui.fragment.bean.SupervisoryControlBean
+import com.sewageproject.ui.fragment.bean.Record
+import com.sewageproject.ui.fragment.bean.WuShuiQueryWithOnlineAndWarnByUserBean
 import com.sewageproject.ui.fragment.supefgt.viewmodel.SupervisoryControlChlideViewModel
 
 class SupervisoryControlChlideMvpFragment :
     BaseVmFragment<SupervisorycontrolchlidefragmentBinding, SupervisoryControlChlideViewModel>() {
-//     fun newInstance(plantAreaType: String?): SupervisoryControlChlideMvpFragment? {
-//        val args = Bundle()
-//        args.putString("plantAreaType", plantAreaType)
-//        val fragment = SupervisoryControlChlideMvpFragment()
-//        fragment.arguments = args
-//        return fragment
-//    }
+    companion object {
+        fun newInstance(plantAreaType: String?): Fragment? {
+            val args = Bundle()
+            args.putString("plantAreaType", plantAreaType)
+            val fragment = SupervisoryControlChlideMvpFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
     private var plantAreaType=""
+    private var plantAreaAllTypeId=""
+    private var pageNo=0
+    private var online=false
+    private var troubleIs=false
+    private var warnIs=false
+    val dataList:MutableList<Record> = ArrayList()
     override fun initData() {
         plantAreaType= arguments?.getString("plantAreaType").toString()
-       val dataList:MutableList<SupervisoryControlBean> = ArrayList()
-        dataList.add(SupervisoryControlBean())
-        dataList.add(SupervisoryControlBean())
-        dataList.add(SupervisoryControlBean())
-        dataList.add(SupervisoryControlBean())
-        dataList.add(SupervisoryControlBean())
         binding?.superRecyclerView?.adapter= SupervisoryControlAdapter(dataList)
-
+        binding?.mySmartRefreshLayout?.autoRefresh()
     }
 
     override fun setListener() {
         binding?.mySmartRefreshLayout?.setOnRefreshListener {
             binding?.mySmartRefreshLayout?.finishRefresh(2000)
+            if(plantAreaType == "Town"){//镇级
+                mViewModel.wuShuiQueryWithOnlineAndWarnByUser(pageNo,plantAreaType)
+            }else{//村级
+                mViewModel.wuShuiQueryWithOnlineAndWarnByUser(pageNo,plantAreaType,plantAreaAllTypeId,online,troubleIs,warnIs)
+            }
         }
         binding?.mySmartRefreshLayout?.setOnLoadMoreListener {
             binding?.mySmartRefreshLayout?.finishLoadMore(2000)
@@ -49,5 +60,13 @@ class SupervisoryControlChlideMvpFragment :
 
     override fun getViewBinding(): SupervisorycontrolchlidefragmentBinding {
      return SupervisorycontrolchlidefragmentBinding.inflate(layoutInflater)
+    }
+
+    override fun observe() {
+        mViewModel.wuShuiQueryWithOnlineAndWarnByUserState.observe(this, Observer<WuShuiQueryWithOnlineAndWarnByUserBean> {
+            Log.e("aa", "--------------$plantAreaType"+"----"+it.size)
+
+        })
+
     }
 }

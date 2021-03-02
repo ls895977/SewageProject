@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.sewageproject.R
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolfragmentBinding
@@ -22,16 +23,15 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
-import java.lang.reflect.Array.newInstance
 import java.util.*
 
 /**
  * 监控
  */
 class SupervisoryControlMvpFragment :
-    BaseVmFragment<SupervisorycontrolfragmentBinding, SupervisoryControlViewModel>() {
+        BaseVmFragment<SupervisorycontrolfragmentBinding, SupervisoryControlViewModel>() {
     private val mDataList: MutableList<String> =
-        ArrayList()
+            ArrayList()
     private val mDataFragment: MutableList<Fragment> =
             ArrayList()
 
@@ -47,28 +47,41 @@ class SupervisoryControlMvpFragment :
     }
 
     override fun getViewBinding(): SupervisorycontrolfragmentBinding {
-      return SupervisorycontrolfragmentBinding.inflate(layoutInflater)
+        return SupervisorycontrolfragmentBinding.inflate(layoutInflater)
     }
+
     override fun initData() {
         mDataList.add("镇级")
         mDataList.add("村级")
-//        mDataFragment.add(SupervisoryControlChlideMvpFragment.newInstance("Town"))
-//        mDataFragment.add(SupervisoryControlChlideMvpFragment.newInstance("Village"))
-
-        mDataFragment.add(SupervisoryControlChlideMvpFragment())
-        mDataFragment.add(SupervisoryControlChlideMvpFragment())
-
-        val mExamplePagerAdapter = ExamplePagerAdapter(activity?.supportFragmentManager!!,mDataFragment)
+        SupervisoryControlChlideMvpFragment.newInstance("Town")?.let { mDataFragment.add(it) }
+        SupervisoryControlChlideMvpFragment.newInstance("Village")?.let { mDataFragment.add(it) }
+        val mExamplePagerAdapter = ExamplePagerAdapter(activity?.supportFragmentManager!!, mDataFragment)
         binding!!.viewPager.adapter = mExamplePagerAdapter
+        binding?.viewPager?.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (position == 1) {
+                    binding?.ivRight?.visibility = View.VISIBLE
+                } else {
+                    binding?.ivRight?.visibility = View.GONE
+                }
+            }
+        })
         initMagicIndicator()
     }
 
     override fun setListener() {
-                binding?.ivRight?.setOnClickListener {
+        binding?.ivRight?.setOnClickListener {
 
 
         }
     }
+
     private fun initMagicIndicator() {
         val commonNavigator = CommonNavigator(context)
         commonNavigator.adapter = object : CommonNavigatorAdapter() {
@@ -77,12 +90,12 @@ class SupervisoryControlMvpFragment :
             }
 
             override fun getTitleView(
-                context: Context,
-                index: Int
+                    context: Context,
+                    index: Int
             ): IPagerTitleView {
                 val badgePagerTitleView = BadgePagerTitleView(context)
                 val simplePagerTitleView: SimplePagerTitleView =
-                    ColorTransitionPagerTitleView(context)
+                        ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.normalColor = resources.getColor(R.color.text_color_999999)
                 simplePagerTitleView.selectedColor = resources.getColor(R.color.color_1D7EFF)
                 simplePagerTitleView.text = mDataList[index]
@@ -98,12 +111,12 @@ class SupervisoryControlMvpFragment :
                 linePagerIndicator.mode = LinePagerIndicator.MODE_EXACTLY
                 linePagerIndicator.lineWidth = UIUtil.dip2px(context, 40.0).toFloat()
                 linePagerIndicator.setColors(resources.getColor(R.color.color_1D7EFF))
-                linePagerIndicator.lineHeight= UIUtil.dip2px(context, 1.0).toFloat()
+                linePagerIndicator.lineHeight = UIUtil.dip2px(context, 1.0).toFloat()
                 return linePagerIndicator
             }
         }
         binding!!.magicIndicator.navigator = commonNavigator
-        val titleContainer =commonNavigator.titleContainer
+        val titleContainer = commonNavigator.titleContainer
         titleContainer.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
         titleContainer.dividerDrawable = object : ColorDrawable() {
             override fun getIntrinsicWidth(): Int {

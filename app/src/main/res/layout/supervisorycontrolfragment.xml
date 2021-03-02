@@ -10,7 +10,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/bg_1d7eff"
-        android:layout_height="@dimen/dip_65">
+        android:layout_height="@dimen/dp_70">
         <EditText
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"

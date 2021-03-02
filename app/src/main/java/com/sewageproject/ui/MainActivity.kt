@@ -1,4 +1,5 @@
 package com.sewageproject.ui
+
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -12,10 +13,12 @@ import com.sewageproject.ui.fragment.WaterRegimeMvpFragment
 import com.sewageproject.ui.fragment.WorkbenchMvpFragment
 import com.sewageproject.ui.model.MainViewModel
 import com.shuyu.gsyvideoplayer.GSYVideoManager
+
 class MainActivity : BaseVmActivity<ActivityMainBinding, MainViewModel>() {
     override fun getViewBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
     }
+
     override fun viewModelClass(): Class<MainViewModel> = MainViewModel::class.java
     private val tv = arrayOfNulls<TextView>(4)
     private val im = arrayOfNulls<ImageView>(4)
@@ -33,12 +36,12 @@ class MainActivity : BaseVmActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun initData() {
-                fgtData.add(WaterRegimeMvpFragment())
+        fgtData.add(WaterRegimeMvpFragment())
         fgtData.add(SupervisoryControlMvpFragment())
         fgtData.add(WorkbenchMvpFragment())
         fgtData.add(VideoMvpFragment())
         supportFragmentManager.beginTransaction().add(R.id.myFrame, fgtData[0])
-            .add(R.id.myFrame, fgtData[1]).hide(fgtData[1]).show(fgtData[0]).commit()
+                .add(R.id.myFrame, fgtData[1]).hide(fgtData[1]).show(fgtData[0]).commit()
         setCurrent(0)
     }
 
@@ -62,8 +65,9 @@ class MainActivity : BaseVmActivity<ActivityMainBinding, MainViewModel>() {
             GSYVideoManager.onResume()
         }
     }
+
     var currentTabIndex = 0
-   private fun setCurrent(indext: Int) {
+    private fun setCurrent(indext: Int) {
         if (currentTabIndex != indext) {
             val trx: FragmentTransaction = supportFragmentManager.beginTransaction()
             trx.hide(fgtData[currentTabIndex])
@@ -74,8 +78,8 @@ class MainActivity : BaseVmActivity<ActivityMainBinding, MainViewModel>() {
         }
         tv[currentTabIndex]!!.isSelected = false
         tv[indext]!!.isSelected = true
-       im[currentTabIndex]!!.isSelected = false
-       im[indext]!!.isSelected = true
+        im[currentTabIndex]!!.isSelected = false
+        im[indext]!!.isSelected = true
         currentTabIndex = indext
     }
 
