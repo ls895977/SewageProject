@@ -16,14 +16,14 @@ class SupervisoryControlChlideViewModel : BaseViewModel() {
     fun wuShuiQueryWithOnlineAndWarnByUser(pageNo: Int,plantAreaType:String, plantAreaAllTypeId: String, online: Boolean, troubleIs: Boolean, warnIs: Boolean) {
         launch(
                 block = {
-                    SupervisoryControlChlide.wuShuiQueryWithOnlineAndWarnByUser("10",
+                    wuShuiQueryWithOnlineAndWarnByUserState.value= SupervisoryControlChlide.wuShuiQueryWithOnlineAndWarnByUser("10",
                             pageNo.toString(),plantAreaType, plantAreaAllTypeId, online, troubleIs, warnIs).result()
                 })
     }
     fun wuShuiQueryWithOnlineAndWarnByUser(pageNo: Int, plantAreaType: String) {
         launch(
                 block = {
-                    SupervisoryControlChlide.wuShuiQueryWithOnlineAndWarnByUser("10",
+                    wuShuiQueryWithOnlineAndWarnByUserState.value= SupervisoryControlChlide.wuShuiQueryWithOnlineAndWarnByUser("10",
                             pageNo.toString(), plantAreaType).result()
                 })
     }

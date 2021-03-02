@@ -7,6 +7,7 @@ import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolchlidefragmentBinding
 import com.sewageproject.ui.fragment.adapter.SupervisoryControlAdapter
 import com.sewageproject.ui.fragment.bean.Record
+import com.sewageproject.ui.fragment.bean.Record1
 import com.sewageproject.ui.fragment.bean.WuShuiQueryWithOnlineAndWarnByUserBean
 import com.sewageproject.ui.fragment.supefgt.viewmodel.SupervisoryControlChlideViewModel
 
@@ -27,16 +28,17 @@ class SupervisoryControlChlideMvpFragment :
     private var online=false
     private var troubleIs=false
     private var warnIs=false
-    val dataList:MutableList<Record> = ArrayList()
+    var myAdapter:SupervisoryControlAdapter?=null
     override fun initData() {
         plantAreaType= arguments?.getString("plantAreaType").toString()
-        binding?.superRecyclerView?.adapter= SupervisoryControlAdapter(dataList)
+        myAdapter=SupervisoryControlAdapter(null);
+        binding?.superRecyclerView?.adapter= myAdapter
         binding?.mySmartRefreshLayout?.autoRefresh()
     }
 
     override fun setListener() {
         binding?.mySmartRefreshLayout?.setOnRefreshListener {
-            binding?.mySmartRefreshLayout?.finishRefresh(2000)
+             pageNo=1
             if(plantAreaType == "Town"){//镇级
                 mViewModel.wuShuiQueryWithOnlineAndWarnByUser(pageNo,plantAreaType)
             }else{//村级
@@ -44,7 +46,13 @@ class SupervisoryControlChlideMvpFragment :
             }
         }
         binding?.mySmartRefreshLayout?.setOnLoadMoreListener {
-            binding?.mySmartRefreshLayout?.finishLoadMore(2000)
+            pageNo++
+            if(plantAreaType == "Town"){//镇级
+                mViewModel.wuShuiQueryWithOnlineAndWarnByUser(pageNo,plantAreaType)
+            }else{//村级
+                mViewModel.wuShuiQueryWithOnlineAndWarnByUser(pageNo,plantAreaType,plantAreaAllTypeId,online,troubleIs,warnIs)
+            }
+
         }
     }
 
@@ -64,8 +72,17 @@ class SupervisoryControlChlideMvpFragment :
 
     override fun observe() {
         mViewModel.wuShuiQueryWithOnlineAndWarnByUserState.observe(this, Observer<WuShuiQueryWithOnlineAndWarnByUserBean> {
-            Log.e("aa", "--------------$plantAreaType"+"----"+it.size)
-
+            if(it.current==1){
+                myAdapter?.setNewData(it?.records as MutableList<Record1>?)
+                binding?.mySmartRefreshLayout?.finishRefresh()
+            }else{
+                it?.records?.let { it1 -> myAdapter?.addData(it1) }
+            }
+            if(pageNo==it.pages){
+                binding?.mySmartRefreshLayout?.finishLoadMoreWithNoMoreData()
+            }else{
+                binding?.mySmartRefreshLayout?.finishLoadMore()
+            }
         })
 
     }

@@ -15,4 +15,12 @@ import com.sewageproject.R
             .into(imView)
     }
 
+     var fangImgOption= RequestOptions()
+             .error(R.mipmap.ic_fangxing)
+     fun fangImgPortrait(context: Context, imView:ImageView, url:String){
+         Glide.with(context)
+                 .applyDefaultRequestOptions(fangImgOption)
+                 .load(url)
+                 .into(imView)
+     }
 }

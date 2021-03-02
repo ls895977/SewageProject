@@ -19,6 +19,7 @@ interface Api {
 
     companion object {
         const val BASE_URL = "http://jwushui.seater.cn:81/jeecg-boot/"
+        const val BASE_IMGURL="http://jwushui.seater.cn:81/jeecg-boot/sys/common/static/"
     }
     //登录
     @POST("sys/login")
@@ -68,4 +69,5 @@ interface Api {
                                                    @Query("pageNo")pageNo:String ,
                                                    @Query("plantAreaType")plantAreaType:String
     ): BaseBean<WuShuiQueryWithOnlineAndWarnByUserBean>
+//    WuShuiQueryWithOnlineAndWarnByUserBean
 }

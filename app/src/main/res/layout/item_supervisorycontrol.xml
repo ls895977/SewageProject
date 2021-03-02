@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:paddingHorizontal="@dimen/dip_15"
     android:layout_marginTop="@dimen/dip_1"
@@ -17,7 +18,7 @@
     <TextView
         android:id="@+id/tvZDName"
         android:layout_width="wrap_content"
-        android:text="站点名称"
+        tools:text="站点名称"
         android:textColor="@color/text_color_333"
         android:layout_marginStart="@dimen/dip_10"
         app:layout_constraintLeft_toRightOf="@+id/ivHeader"
@@ -25,6 +26,7 @@
         android:textSize="@dimen/sp_14"
         android:layout_height="wrap_content"/>
     <TextView
+        android:id="@+id/tvWarnIs"
         android:layout_width="wrap_content"
         android:text="报障中   告警中"
         android:layout_marginTop="@dimen/dip_5"
@@ -35,6 +37,7 @@
         android:textSize="@dimen/fond_12sp"
         android:layout_height="wrap_content"/>
       <TextView
+          android:id="@+id/tvOnline"
           android:layout_width="wrap_content"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintBottom_toBottomOf="parent"
