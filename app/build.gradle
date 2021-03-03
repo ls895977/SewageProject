@@ -53,7 +53,7 @@ dependencies {
     //打开相册
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
     //弹窗
-    implementation 'com.lxj:xpopup:2.2.13'
+    implementation 'com.lxj:xpopup:2.2.22'
     //工具类 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
     implementation 'com.blankj:utilcodex:1.30.5'
     //刷新

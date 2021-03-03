@@ -2,17 +2,19 @@ package com.sewageproject.ui.fragment
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.enums.PopupPosition
 import com.sewageproject.R
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolfragmentBinding
 import com.sewageproject.ui.fragment.adapter.ExamplePagerAdapter
 import com.sewageproject.ui.fragment.supefgt.SupervisoryControlChlideMvpFragment
 import com.sewageproject.ui.fragment.viewmodel.SupervisoryControlViewModel
+import com.sewageproject.ui.popup.SupervisoryControlPopupView
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -77,8 +79,11 @@ class SupervisoryControlMvpFragment :
 
     override fun setListener() {
         binding?.ivRight?.setOnClickListener {
-
-
+            XPopup.Builder(context)
+                    .popupPosition(PopupPosition.Right) //右边
+                    .hasStatusBarShadow(true) //启用状态栏阴影
+                    .asCustom(context?.let { it1 -> SupervisoryControlPopupView(it1) })
+                    .show()
         }
     }
 

@@ -1,5 +1,7 @@
 package com.sewageproject.ui.fragment.adapter;
 
+import android.text.TextUtils;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.sewageproject.R;
@@ -27,6 +29,11 @@ public class SupervisoryControlAdapter  extends BaseQuickAdapter<Record1, BaseVi
         }
         viewHolder.setText(R.id.tvZDName,item.getName());
         viewHolder.setGone(R.id.tvWarnIs,item.getWarnIs());
-        GlideUtils.INSTANCE.fangImgPortrait(getContext(),viewHolder.getView(R.id.ivHeader), Api.BASE_IMGURL+ item.getImgUris());
+        String imgUrl="";
+        if(!TextUtils.isEmpty(item.getImgUris())){
+            String[] mdd=item.getImgUris().split(",");
+            imgUrl=mdd[0];
+        }
+        GlideUtils.INSTANCE.fangImgPortrait(getContext(),viewHolder.getView(R.id.ivHeader), Api.BASE_IMGURL+ imgUrl);
     }
 }

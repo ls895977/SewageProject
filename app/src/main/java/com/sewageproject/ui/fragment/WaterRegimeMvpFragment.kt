@@ -59,16 +59,10 @@ class WaterRegimeMvpFragment :
         }
 
     }
-
+    private var mySewageListAdapter:SewageListAdapter?=null
     override fun initData() {
-        val sewageList: MutableList<SewageListBean> = ArrayList()
-        sewageList.add(SewageListBean())
-        sewageList.add(SewageListBean())
-        sewageList.add(SewageListBean())
-        sewageList.add(SewageListBean())
-        sewageList.add(SewageListBean())
-        sewageList.add(SewageListBean())
-        binding?.sewageListRecyclerView?.adapter = SewageListAdapter(sewageList)
+        mySewageListAdapter=SewageListAdapter(null)
+        binding?.sewageListRecyclerView?.adapter = mySewageListAdapter
     }
 
     override fun observe() {
@@ -98,10 +92,11 @@ class WaterRegimeMvpFragment :
             if(pageNo==1){
                 //请求数据
             binding?.mySmartRefreshLayout?.finishRefresh() //刷新完成
+                mySewageListAdapter?.setNewData(it.records)
             }else{
-                if(pageNo==it.total){
-
-
+                mySewageListAdapter?.addData(it.records)
+                if(pageNo==it.pages){
+                    binding?.mySmartRefreshLayout?.finishLoadMoreWithNoMoreData()
                 }else {
                     binding?.mySmartRefreshLayout?.finishLoadMore() //加载完成
                 }

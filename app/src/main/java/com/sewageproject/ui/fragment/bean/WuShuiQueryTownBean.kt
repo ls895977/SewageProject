@@ -2,9 +2,9 @@ package com.sewageproject.ui.fragment.bean
 
 data class WuShuiQueryTownBean(
     val current: Int,
-    val orders: List<Any>,
+    val orders: MutableList<Any>,
     val pages: Int,
-    val records: List<Record>,
+    val records: MutableList<Record>,
     val searchCount: Boolean,
     val size: Int,
     val total: Int
@@ -19,21 +19,21 @@ class VarsDict(
 )
 
 data class WaterIn(
-    val dataTime: Any,
-    val inAllWater: Any,
-    val inCod: Any,
-    val inNh: Any,
-    val inPh: Any
+    val dataTime: String,
+    val inAllWater: String,
+    val inCod: String,
+    val inNh: String,
+    val inPh: String
 )
 
 data class WaterOut(
-    val dataTime: Any,
-    val outAllWater: Any,
-    val outAn: Any,
-    val outAp: Any,
-    val outCod: Any,
-    val outInstantWater: Any,
-    val outNh: Any,
-    val outPh: Any,
-    val outTodayWater: Any
+    val dataTime: String,
+    val outAllWater: String,
+    val outAn: String,
+    val outAp: String,
+    val outCod: String,
+    val outInstantWater: String,
+    val outNh: String,
+    val outPh: String,
+    val outTodayWater: String
 )
