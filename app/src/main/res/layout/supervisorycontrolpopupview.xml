@@ -4,5 +4,27 @@
       android:orientation="vertical"
     android:background="@color/white"
     android:layout_height="match_parent">
-
+    <TextView
+        android:text="筛选"
+        android:layout_marginVertical="@dimen/dip_25"
+        android:textSize="@dimen/fond_16sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/text_color_000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="站点类型"
+        android:layout_marginStart="@dimen/dp_10"
+        android:textSize="@dimen/fond_16sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_color_333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myZDRecyclerView"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -29,6 +29,7 @@
 
         <ImageView
             android:id="@+id/ivRight"
+            android:visibility="gone"
             android:text="筛选"
             android:textColor="@color/white"
             android:gravity="center_vertical"

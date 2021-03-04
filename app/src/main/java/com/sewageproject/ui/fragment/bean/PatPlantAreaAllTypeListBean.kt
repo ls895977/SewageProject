@@ -19,5 +19,6 @@ data class Record2(
     val id: String,
     val name: String,
     val updateBy: Any,
-    val updateTime: Any
+    val updateTime: Any,
+    var status:Boolean
 )

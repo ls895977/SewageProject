@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:paddingHorizontal="@dimen/dp_10"
+    android:paddingVertical="@dimen/dp_5"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvTitle"
+        android:paddingVertical="@dimen/dip_9"
+        android:paddingHorizontal="@dimen/dp_15"
+        android:layout_width="wrap_content"
+        android:text="人工湿地"
+        android:textColor="@drawable/fond_ffffff_b3b3b3"
+        android:background="@drawable/bg_1d7eff_ffffff_w1_d9d9d9"
+        android:textSize="@dimen/fond_12sp"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

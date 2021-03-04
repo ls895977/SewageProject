@@ -73,7 +73,6 @@ interface Api {
     //站点类型  =>监控=筛选=站点类型
     @GET("pat/PlantAreaAllType/list")
     suspend fun patPlantAreaAllTypeList(@Query("pageSize")pageSize:String,
-                                                   @Query("pageNo")pageNo:String ,
-                                                   @Query("plantAreaType")plantAreaType:String
+                                                   @Query("pageNo")pageNo:String
     ): BaseBean<PatPlantAreaAllTypeListBean>
 }

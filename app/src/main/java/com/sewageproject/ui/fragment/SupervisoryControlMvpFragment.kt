@@ -12,9 +12,11 @@ import com.sewageproject.R
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.SupervisorycontrolfragmentBinding
 import com.sewageproject.ui.fragment.adapter.ExamplePagerAdapter
+import com.sewageproject.ui.fragment.bean.Record2
 import com.sewageproject.ui.fragment.supefgt.SupervisoryControlChlideMvpFragment
 import com.sewageproject.ui.fragment.viewmodel.SupervisoryControlViewModel
 import com.sewageproject.ui.popup.SupervisoryControlPopupView
+import com.yechaoa.yutilskt.YUtils
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -46,6 +48,7 @@ class SupervisoryControlMvpFragment :
      * 初始化view相关
      */
     override fun initView() {
+
     }
 
     override fun getViewBinding(): SupervisorycontrolfragmentBinding {
@@ -79,12 +82,10 @@ class SupervisoryControlMvpFragment :
 
     override fun setListener() {
         binding?.ivRight?.setOnClickListener {
-            XPopup.Builder(context)
-                    .popupPosition(PopupPosition.Right) //右边
-                    .hasStatusBarShadow(true) //启用状态栏阴影
-                    .asCustom(context?.let { it1 -> SupervisoryControlPopupView(it1) })
-                    .show()
+            activity?.let { it1 -> YUtils.showLoading(it1,"数据请求中...") }
+            mViewModel.patPlantAreaAllTypeList()
         }
+
     }
 
     private fun initMagicIndicator() {
@@ -129,5 +130,19 @@ class SupervisoryControlMvpFragment :
             }
         }
         ViewPagerHelper.bind(binding!!.magicIndicator, binding!!.viewPager)
+    }
+
+    override fun observe() {
+        mViewModel.supervisoryControlSerViceState.observe(this,{
+            XPopup.Builder(context)
+                    .popupPosition(PopupPosition.Right) //右边
+                    .asCustom(context?.let { it1 -> SupervisoryControlPopupView(it1,
+                        it.records as MutableList<Record2>
+                    ) })
+                    .show()
+        })
+        mViewModel.supervisoryControlState.observe(this,{
+            YUtils.hideLoading()
+        })
     }
 }
