@@ -11,7 +11,7 @@
         android:background="@drawable/bg_1d7eff"
         android:layout_height="@dimen/dip_65">
         <EditText
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvEditText"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="@dimen/dip_20"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,13 +41,13 @@
             android:id="@+id/sewageLeftRecyclerView"
             android:background="@color/color_fafafa"
             android:layout_width="0dip"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
             android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="match_parent"/>
         <androidx.recyclerview.widget.RecyclerView
           android:paddingHorizontal="@dimen/dip_5"
             android:background="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/sewageRightRecyclerView"
             android:layout_width="0dip"
             app:spanCount="2"

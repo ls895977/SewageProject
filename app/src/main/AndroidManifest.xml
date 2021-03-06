@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".ui.LoginActivity"/>
         <activity android:name=".ui.MainActivity"
+            android:launchMode="singleTop"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait"
             />

@@ -87,6 +87,7 @@ class LoginActivity :
             YUtils.hideLoading()
             if (it) {
                 ActStartUtils.startAct(this, MainActivity::class.java)
+                finish()
             } else {
                 ToastUtil.show("登录失败!")
             }

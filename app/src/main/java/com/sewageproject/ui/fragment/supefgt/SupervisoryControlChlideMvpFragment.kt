@@ -108,7 +108,7 @@ fun onGetMessage(message: MessageJianKongBean) {
     override fun observe() {
         mViewModel.wuShuiQueryWithOnlineAndWarnByUserState.observe(
             this,
-            Observer<WuShuiQueryWithOnlineAndWarnByUserBean> {
+            Observer {
                 if (it.current == 1) {
                     myAdapter?.setNewData(it?.records as MutableList<Record1>?)
                     binding?.mySmartRefreshLayout?.finishRefresh()

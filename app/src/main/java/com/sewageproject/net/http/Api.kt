@@ -20,6 +20,7 @@ interface Api {
     companion object {
         const val BASE_URL = "http://jwushui.seater.cn:81/jeecg-boot/"
         const val BASE_IMGURL="http://jwushui.seater.cn:81/jeecg-boot/sys/common/static/"
+        const val BASE_VidEOURL="http://jwushui.seater.cn:81/"
     }
     //登录
     @POST("sys/login")
@@ -75,4 +76,10 @@ interface Api {
     suspend fun patPlantAreaAllTypeList(@Query("pageSize")pageSize:String,
                                                    @Query("pageNo")pageNo:String
     ): BaseBean<PatPlantAreaAllTypeListBean>
+    //视频监控-分页列表查询  查询站点
+    @GET("wushui/videoView/list")
+    suspend fun wuShuiVideoViewList(@Query("pageSize")pageSize:String,
+                                        @Query("pageNo")pageNo:String,
+                                    @Query("plantAreaType")plantAreaType:String
+    ): BaseBean<WuShuiVideoViewListBean>
 }

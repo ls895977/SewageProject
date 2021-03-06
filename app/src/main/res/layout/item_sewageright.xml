@@ -13,6 +13,7 @@
       android:background="@color/color_fafafa"
       android:layout_height="@dimen/dip_80"/>
     <TextView
+        android:id="@+id/tvName"
         android:paddingVertical="@dimen/dip_10"
         android:text="视频名称"
         android:textColor="@color/text_color_333"

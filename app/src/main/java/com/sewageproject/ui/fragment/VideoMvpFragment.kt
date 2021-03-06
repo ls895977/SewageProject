@@ -1,15 +1,16 @@
 package com.sewageproject.ui.fragment
-
-import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.sewageproject.R
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.VideofragmentBinding
+import com.sewageproject.net.http.Api
 import com.sewageproject.ui.fragment.adapter.SewageRightAdapter
 import com.sewageproject.ui.fragment.adapter.sewageLeftAdapter
-import com.sewageproject.ui.fragment.bean.SewageLeftBean
-import com.sewageproject.ui.fragment.bean.SewageRightBean
+import com.sewageproject.ui.fragment.bean.Record3
+import com.sewageproject.ui.fragment.bean.Video
+import com.sewageproject.ui.fragment.bean.WuShuiVideoViewListBean
 import com.sewageproject.ui.fragment.viewmodel.VideoViewModel
 import java.util.*
 
@@ -18,15 +19,18 @@ import java.util.*
  */
 class VideoMvpFragment :
     BaseVmFragment<VideofragmentBinding, VideoViewModel>() {
-    val urlAD = "http://7xjmzj.com1.z0.glb.clouddn.com/20171026175005_JObCxCE2.mp4"
-
+    var urlAD = "hls/video14/test.m3u8"
     override fun initView() {
     }
-
-    var dataList1: MutableList<SewageLeftBean>? = null
     var sewageLeftAdapter: sewageLeftAdapter? = null
+    var sewagerightAdapter: SewageRightAdapter? = null
+    val sewageRightData: MutableList<Video> =
+        ArrayList()
+    val sewageRightAllData: MutableList<Video> =
+        ArrayList()
+    var bean: WuShuiVideoViewListBean?=null
     override fun initData() {
-        binding!!.detailPlayer.setUpLazy(urlAD, true, null, null, "这是title")
+        binding!!.detailPlayer.setUpLazy(Api.Companion.BASE_VidEOURL+urlAD, true, null, null, "")
         //增加title
         binding!!.detailPlayer.titleTextView.visibility = View.GONE
         //设置返回键
@@ -46,35 +50,51 @@ class VideoMvpFragment :
         binding!!.detailPlayer.isShowFullAnimation = true
         //小屏时不触摸滑动
         binding!!.detailPlayer.setIsTouchWiget(false)
-        dataList1 = ArrayList()
-        dataList1?.add(SewageLeftBean("全部"))
-        dataList1?.add(SewageLeftBean("站点1"))
-        dataList1?.add(SewageLeftBean("站点2"))
-        dataList1?.add(SewageLeftBean("站点3"))
-        dataList1?.get(0)?.isStatus = true
-        sewageLeftAdapter = sewageLeftAdapter(dataList1)
+        sewageLeftAdapter = sewageLeftAdapter(null)
         binding!!.sewageLeftRecyclerView.adapter = sewageLeftAdapter
         sewageLeftAdapter!!.setOnItemClickListener { adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
-            dataList1?.get(position)?.isStatus = true
-            dataList1?.get(postion)?.isStatus = false
-            postion = position
-            sewageLeftAdapter!!.notifyDataSetChanged()
+            bean?.records?.forEach {
+                it.status=false
+            }
+            bean?.records?.get(position)?.status=true
+            if(position==0){
+                choseAddVideo(10000)
+            }else {
+                choseAddVideo(position-1)
+            }
         }
-        val sewageRightData: MutableList<SewageRightBean> =
-            ArrayList()
-        sewageRightData.add(SewageRightBean())
-        sewageRightData.add(SewageRightBean())
-        sewageRightData.add(SewageRightBean())
-        sewageRightData.add(SewageRightBean())
-        sewageRightData.add(SewageRightBean())
-        sewageRightData.add(SewageRightBean())
-        sewageRightData.add(SewageRightBean())
-        sewageRightData.add(SewageRightBean())
-        binding!!.sewageRightRecyclerView.adapter = SewageRightAdapter(sewageRightData)
+        sewagerightAdapter = SewageRightAdapter(sewageRightData)
+        binding!!.sewageRightRecyclerView.adapter = sewagerightAdapter
+        sewagerightAdapter?.setOnItemClickListener { adapter, view, position ->
+            urlAD="hls/video"+ sewageRightData[position].id+"/test.m3u8"
+            binding!!.detailPlayer.setUpLazy(Api.Companion.BASE_VidEOURL+urlAD, true, null, null, "")
+            binding!!.detailPlayer.startPlayLogic()
+        }
+        binding!!.detailPlayer.startPlayLogic()
+        binding?.tvEditText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+            override fun afterTextChanged(s: Editable?) {
+                sewageRightData.clear()
+                if(binding?.tvEditText?.text.toString().isNotEmpty()){
+                    sewageRightAllData.forEach {
+                        if(it.name.contains(binding?.tvEditText?.text.toString())){
+                        sewageRightData.add(it)
+                        }
+                    }
+                }else{
+                    sewageRightData.addAll(sewageRightAllData)
+                }
+                sewagerightAdapter?.notifyDataSetChanged()
+            }
+        })
+        mViewModel.wuShuiVideoViewList(pageNo.toString())
     }
-
-    var postion = 0
-
+    private var pageNo=0
     /**
      * 获取ViewModel的class
      */
@@ -82,5 +102,39 @@ class VideoMvpFragment :
 
     override fun getViewBinding(): VideofragmentBinding {
       return  VideofragmentBinding.inflate(layoutInflater)
+    }
+
+    override fun setListener() {
+
+    }
+    override fun observe() {
+        mViewModel.warnBean.observe(this,{
+            bean=it
+            it.records.add(0,Record3(0,"全部", emptyList(),true))
+                sewageLeftAdapter?.setNewData(it.records)
+            choseAddVideo(10000)
+        })
+    }
+
+   private fun choseAddVideo(index:Int){
+        sewageRightData.clear()
+        if(index==10000){
+            bean?.records?.forEach { videoItem ->
+                videoItem.videoList.forEach {
+                    it.url="/wsfkcut/"+videoItem.id+"-"+it.ch+".jpg"
+                }
+                sewageRightData.addAll(videoItem.videoList)
+                sewageRightAllData.addAll(videoItem.videoList)
+            }
+        }else{
+            bean?.records?.get(index)?.videoList?.forEach {
+                it.url="/wsfkcut/"+ bean?.records?.get(index)?.id +"-"+it.ch+".jpg"
+            }
+            bean?.records?.get(index)?.videoList?.let {
+                sewageRightData.addAll(it)
+                sewageRightAllData.addAll(it)
+            }
+        }
+        sewageLeftAdapter?.notifyDataSetChanged()
     }
 }
