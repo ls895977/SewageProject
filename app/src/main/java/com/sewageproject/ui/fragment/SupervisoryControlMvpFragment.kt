@@ -15,6 +15,7 @@ import com.sewageproject.ui.fragment.adapter.ExamplePagerAdapter
 import com.sewageproject.ui.fragment.bean.Record2
 import com.sewageproject.ui.fragment.supefgt.SupervisoryControlChlideMvpFragment
 import com.sewageproject.ui.fragment.viewmodel.SupervisoryControlViewModel
+import com.sewageproject.ui.message.MessageJianKongBean
 import com.sewageproject.ui.popup.SupervisoryControlPopupView
 import com.yechaoa.yutilskt.YUtils
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -27,6 +28,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 /**
@@ -60,13 +62,20 @@ class SupervisoryControlMvpFragment :
         mDataList.add("村级")
         SupervisoryControlChlideMvpFragment.newInstance("Town")?.let { mDataFragment.add(it) }
         SupervisoryControlChlideMvpFragment.newInstance("Village")?.let { mDataFragment.add(it) }
-        val mExamplePagerAdapter = ExamplePagerAdapter(activity?.supportFragmentManager!!, mDataFragment)
+        val mExamplePagerAdapter = ExamplePagerAdapter(
+            activity?.supportFragmentManager!!,
+            mDataFragment
+        )
         binding!!.viewPager.adapter = mExamplePagerAdapter
         binding?.viewPager?.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
             }
 
             override fun onPageSelected(position: Int) {
@@ -82,7 +91,7 @@ class SupervisoryControlMvpFragment :
 
     override fun setListener() {
         binding?.ivRight?.setOnClickListener {
-            activity?.let { it1 -> YUtils.showLoading(it1,"数据请求中...") }
+            activity?.let { it1 -> YUtils.showLoading(it1, "数据请求中...") }
             mViewModel.patPlantAreaAllTypeList()
         }
 
@@ -96,8 +105,8 @@ class SupervisoryControlMvpFragment :
             }
 
             override fun getTitleView(
-                    context: Context,
-                    index: Int
+                context: Context,
+                index: Int
             ): IPagerTitleView {
                 val badgePagerTitleView = BadgePagerTitleView(context)
                 val simplePagerTitleView: SimplePagerTitleView =
@@ -131,17 +140,57 @@ class SupervisoryControlMvpFragment :
         }
         ViewPagerHelper.bind(binding!!.magicIndicator, binding!!.viewPager)
     }
-
+    private var choseZDHahsMap:Set<Int> = HashSet()
+    private var choseZXHahsMap:Set<Int> = HashSet()
+    private var choseBZHahsMap:Set<Int> = HashSet()
     override fun observe() {
-        mViewModel.supervisoryControlSerViceState.observe(this,{
+        mViewModel.supervisoryControlSerViceState.observe(this, {
             XPopup.Builder(context)
-                    .popupPosition(PopupPosition.Right) //右边
-                    .asCustom(context?.let { it1 -> SupervisoryControlPopupView(it1,
-                        it.records as MutableList<Record2>
-                    ) })
-                    .show()
+                .popupPosition(PopupPosition.Right) //右边
+                .asCustom(context?.let { it1 ->
+                    SupervisoryControlPopupView(it1,
+                        it.records as MutableList<Record2>,
+                        choseZDHahsMap,
+                        choseZXHahsMap,
+                        choseBZHahsMap,
+                        object : SupervisoryControlPopupView.onSelecteSetMap {
+                            override fun onSelectedSet(
+                                menu1: Set<Int>,
+                                menu2: Set<Int>,
+                                menu3: Set<Int>
+                            ) {
+                                choseZDHahsMap = menu1
+                                choseZXHahsMap = menu2
+                                choseBZHahsMap = menu3
+                                var plantAreaAllTypeId: String? = null
+                                var online = false
+                                var troubleIs = false
+                                var warnIs = false
+                                //站点类型
+                                plantAreaAllTypeId = if (menu1.indices.last == -1) {//未选择
+                                    ""
+                                } else {//选择中
+                                    it.records[menu1.indices.last].id
+                                }
+                                //状态在线，或离线
+                                if(menu2.indices.last==0){//在线
+                                    online=true
+                                }
+                                //状态保障中，或告警中
+                                if (menu3.indices.last ==0) {//保障中
+                                    troubleIs=true
+                                    warnIs=false
+                                } else if(menu3.indices.last ==1){//告警中
+                                    troubleIs=false
+                                    warnIs=true
+                                }
+                                EventBus.getDefault().postSticky(MessageJianKongBean(plantAreaAllTypeId,online,troubleIs,warnIs))
+                            }
+                        })
+                })
+                .show()
         })
-        mViewModel.supervisoryControlState.observe(this,{
+        mViewModel.supervisoryControlState.observe(this, {
             YUtils.hideLoading()
         })
     }
