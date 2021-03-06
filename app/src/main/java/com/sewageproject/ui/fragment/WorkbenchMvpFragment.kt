@@ -5,9 +5,12 @@ import android.view.View
 import com.sewageproject.R
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.WorkbenchfragmentBinding
+import com.sewageproject.ui.MainActivity
 import com.sewageproject.ui.fragment.adapter.WorkbenchAdapter
 import com.sewageproject.ui.fragment.bean.WorkbenchBean
 import com.sewageproject.ui.fragment.viewmodel.WorkbenchViewModel
+import com.sewageproject.ui.fragment.work.activity.MyPatrolActivity
+import com.sewageproject.utils.ActStartUtils
 
 /**
  * 工作台
@@ -20,7 +23,7 @@ class WorkbenchMvpFragment :
         binding?.workTitle?.tvTitle?.text = "工作台"
         binding?.workTitle?.ivRight?.visibility = View.GONE
     }
-
+    private var myWorkbenchAdapter:WorkbenchAdapter?=null
     override fun initData() {
         val childList: MutableList<WorkbenchBean.WorkbenchChlideBean> = ArrayList()
         childList.add(WorkbenchBean.WorkbenchChlideBean("我的巡检", R.mipmap.btn_wdxj))
@@ -47,12 +50,21 @@ class WorkbenchMvpFragment :
         childList2.add(WorkbenchBean.WorkbenchChlideBean("用药", R.mipmap.btn_yr))
         childList2.add(WorkbenchBean.WorkbenchChlideBean("药品盘点", R.mipmap.btn_yppd))
         workList.add(WorkbenchBean("物料用药", childList2))
-        binding?.workRecyclerView?.adapter = WorkbenchAdapter(workList)
+        myWorkbenchAdapter=WorkbenchAdapter(workList)
+        binding?.workRecyclerView?.adapter = myWorkbenchAdapter
+        myWorkbenchAdapter?.setOnItemClickLinstener { position, childPosition ->
+            if(position==0){
+                when(childPosition){
+                    0->{//我的巡检
+                        ActStartUtils.startAct(context, MyPatrolActivity::class.java)
+                    }
+                }
+            }
 
+        }
     }
 
     override fun setListener() {
-
     }
 
     /**

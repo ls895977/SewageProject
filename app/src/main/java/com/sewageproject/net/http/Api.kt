@@ -4,6 +4,7 @@ import com.sewageproject.base.BaseBean
 import com.sewageproject.base.BaseListBean
 import com.sewageproject.net.bean.User
 import com.sewageproject.ui.fragment.bean.*
+import com.sewageproject.ui.fragment.work.bean.MyPatrolBean
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -82,4 +83,8 @@ interface Api {
                                         @Query("pageNo")pageNo:String,
                                     @Query("plantAreaType")plantAreaType:String
     ): BaseBean<WuShuiVideoViewListBean>
+
+    //巡检排班信息-以登录用户为单位，获取我的巡检信息
+    @POST("produce/inspection/inspectionSchedule/getMyScheduleForApp")
+    suspend fun getMyScheduleForApp(@Body requestBody: RequestBody): BaseBean<MyPatrolBean>
 }
