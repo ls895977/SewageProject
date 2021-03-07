@@ -1,11 +1,8 @@
 package com.sewageproject.ui.fragment
-
-import android.os.Bundle
 import android.view.View
 import com.sewageproject.R
 import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.WorkbenchfragmentBinding
-import com.sewageproject.ui.MainActivity
 import com.sewageproject.ui.fragment.adapter.WorkbenchAdapter
 import com.sewageproject.ui.fragment.bean.WorkbenchBean
 import com.sewageproject.ui.fragment.viewmodel.WorkbenchViewModel

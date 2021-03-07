@@ -87,4 +87,5 @@ interface Api {
     //巡检排班信息-以登录用户为单位，获取我的巡检信息
     @POST("produce/inspection/inspectionSchedule/getMyScheduleForApp")
     suspend fun getMyScheduleForApp(@Body requestBody: RequestBody): BaseBean<MyPatrolBean>
+
 }

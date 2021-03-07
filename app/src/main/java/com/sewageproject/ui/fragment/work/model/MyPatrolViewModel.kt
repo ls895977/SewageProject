@@ -1,14 +1,8 @@
 package com.sewageproject.ui.fragment.work.model
-
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.sewageproject.base.BaseViewModel
 import com.sewageproject.net.http.RetrofitClient
-import com.sewageproject.utils.SPUtils
-import com.sewageproject.utils.SpConstant
 import java.util.HashMap
-
 class MyPatrolViewModel:BaseViewModel(){
     private val loginRepository by lazy { RetrofitClient.getApiService() }
     private val myPatrolState = MutableLiveData<Boolean>()

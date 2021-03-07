@@ -7,9 +7,12 @@ import com.bigkoo.pickerview.view.TimePickerView
 import com.sewageproject.R
 import com.sewageproject.base.BaseVmActivity
 import com.sewageproject.databinding.MypatrolactivityBinding
+import com.sewageproject.ui.fragment.work.adapter.MyPatrolAdapter
+import com.sewageproject.ui.fragment.work.bean.Data
 import com.sewageproject.ui.fragment.work.model.MyPatrolViewModel
 import com.sewageproject.utils.MyTimeUtils
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 我的巡检
@@ -25,17 +28,24 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
         initTime()
         myReyclerView=findViewById(R.id.myPatrolRecyclerView)
     }
-
+    private var myPatrolAdapter: MyPatrolAdapter?=null
     override fun initData() {
-
+        val dataList:MutableList<Data> = ArrayList()
+        dataList.add(Data(null,null, null.toString(), null.toString(), emptyList()))
+        myPatrolAdapter=MyPatrolAdapter(dataList)
+        mBinding.myPatrolRecyclerView.adapter=myPatrolAdapter
     }
 
     override fun setListener() {
+        mBinding.leftBack.setOnClickListener { finish() }
         mBinding.clTime.setOnClickListener { //时间选择
             //点击组件的点击事件
             if (pvTime!=null){
                 pvTime?.show()
             }
+        }
+        mBinding.ivRight.setOnClickListener {//筛选
+
         }
     }
     override fun observe() {

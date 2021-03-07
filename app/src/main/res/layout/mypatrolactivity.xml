@@ -13,7 +13,6 @@
      android:layout_height="@dimen/dp_70">
   <RelativeLayout
       android:id="@+id/leftBack"
-      android:onClick="onBack"
       android:paddingHorizontal="@dimen/dip_15"
       app:layout_constraintStart_toStartOf="parent"
       android:layout_width="wrap_content"
@@ -43,7 +42,6 @@
 
   <ImageView
       android:id="@+id/ivRight"
-      android:visibility="gone"
       android:text="筛选"
       android:textColor="@color/white"
       android:gravity="center_vertical"
