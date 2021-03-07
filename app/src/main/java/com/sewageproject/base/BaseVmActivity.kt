@@ -1,5 +1,6 @@
 package com.sewageproject.base
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 abstract class BaseVmActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivity<VB>() {
@@ -19,7 +20,6 @@ abstract class BaseVmActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivi
         initData()
         setListener()
     }
-
     /**
      * 初始化ViewModel
      */

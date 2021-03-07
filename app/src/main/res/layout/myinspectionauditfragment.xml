@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myInspectionReyclerView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/clBut"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dip_50">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAllBox"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/checkAll"
+        android:layout_marginStart="@dimen/dp_15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="@dimen/dp_16"
+        android:background="@drawable/checkbox_selected"
+        android:layout_height="@dimen/dp_16"/>
+        <TextView
+            android:layout_marginStart="@dimen/dp_7"
+            app:layout_constraintBottom_toBottomOf="@+id/checkAll"
+            app:layout_constraintTop_toTopOf="@+id/checkAll"
+            app:layout_constraintLeft_toRightOf="@+id/checkAll"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/fond_14sp"
+            android:textColor="@color/text_color_999999"
+            android:text="全选"
+            android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+      <TextView
+          android:id="@+id/SHTGBut"
+          android:layout_marginEnd="@dimen/dp_15"
+          android:layout_marginStart="@dimen/dip_30"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          android:textColor="@color/white"
+          android:text="审核通过"
+          android:gravity="center"
+          android:background="@drawable/bg_1d7eff_5"
+          android:textSize="@dimen/fond_14sp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@+id/clAllBox"
+          android:layout_width="@dimen/dp_0"
+          android:layout_height="@dimen/dp_32"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

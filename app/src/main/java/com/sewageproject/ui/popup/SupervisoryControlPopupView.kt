@@ -11,7 +11,9 @@ import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 
-
+/**
+ * 监控筛选pup
+ */
 class SupervisoryControlPopupView(context: Context, var records: MutableList<Record2>
 ,var choseZDHahsMap:Set<Int>
 ,var cholseZXHahsMap:Set<Int>

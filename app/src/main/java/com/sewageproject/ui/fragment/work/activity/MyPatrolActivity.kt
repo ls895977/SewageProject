@@ -4,13 +4,21 @@ import android.view.Gravity
 import androidx.recyclerview.widget.RecyclerView
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.view.TimePickerView
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.enums.PopupPosition
 import com.sewageproject.R
 import com.sewageproject.base.BaseVmActivity
 import com.sewageproject.databinding.MypatrolactivityBinding
+import com.sewageproject.ui.fragment.bean.Record2
 import com.sewageproject.ui.fragment.work.adapter.MyPatrolAdapter
-import com.sewageproject.ui.fragment.work.bean.Data
+import com.sewageproject.ui.fragment.work.bean.ScheObj
 import com.sewageproject.ui.fragment.work.model.MyPatrolViewModel
+import com.sewageproject.ui.message.MessageJianKongBean
+import com.sewageproject.ui.popup.MyPatrolPopupView
+import com.sewageproject.ui.popup.SupervisoryControlPopupView
+import com.sewageproject.utils.ActStartUtils
 import com.sewageproject.utils.MyTimeUtils
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -30,8 +38,9 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
     }
     private var myPatrolAdapter: MyPatrolAdapter?=null
     override fun initData() {
-        val dataList:MutableList<Data> = ArrayList()
-        dataList.add(Data(null,null, null.toString(), null.toString(), emptyList()))
+        val dataList:MutableList<ScheObj> = ArrayList()
+        dataList.add(ScheObj("","","","",false,"","","","",false,"",""))
+        dataList.add(ScheObj("","","","",false,"","","","",false,"",""))
         myPatrolAdapter=MyPatrolAdapter(dataList)
         mBinding.myPatrolRecyclerView.adapter=myPatrolAdapter
     }
@@ -45,7 +54,13 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
             }
         }
         mBinding.ivRight.setOnClickListener {//筛选
-
+            XPopup.Builder(this)
+                .popupPosition(PopupPosition.Right) //右边
+                .asCustom(MyPatrolPopupView(this))
+                .show()
+        }
+        myPatrolAdapter?.setOnItemClickListener { adapter, view, position ->
+            ActStartUtils.startAct(this, MyInspectionAuditActivity::class.java)
         }
     }
     override fun observe() {

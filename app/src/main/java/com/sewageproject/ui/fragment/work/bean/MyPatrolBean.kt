@@ -14,14 +14,14 @@ data class Data(
 )
 
 data class ScheObj(
-    val completeRate: Double,
+    val completeRate: String,
     val id: String,
     val inspectionAreaType: String,
     val inspectionPeriodType: String,
     val oncePerDay: Boolean,
-    val pathId: Int,
+    val pathId: String,
     val pathName: String,
-    val plantAreaId: Any,
+    val plantAreaId: String,
     val plantAreaName: String,
     val twicePerDay: Boolean,
     val validEndTime: String,
