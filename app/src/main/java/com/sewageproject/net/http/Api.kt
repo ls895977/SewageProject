@@ -6,10 +6,7 @@ import com.sewageproject.net.bean.User
 import com.sewageproject.ui.fragment.bean.*
 import com.sewageproject.ui.fragment.work.bean.MyPatrolBean
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 /**
@@ -85,7 +82,12 @@ interface Api {
     ): BaseBean<WuShuiVideoViewListBean>
 
     //巡检排班信息-以登录用户为单位，获取我的巡检信息
+    @FormUrlEncoded
     @POST("produce/inspection/inspectionSchedule/getMyScheduleForApp")
-    suspend fun getMyScheduleForApp(@Body requestBody: RequestBody): BaseBean<MyPatrolBean>
+    suspend fun getMyScheduleForApp(@Field("orderYearAndMonth")orderYearAndMonth:String,
+                                    @Field("staffIds")staffIds:String,
+                                    @Field("pageNo")pageNo:String,
+                                    @Field("pageSize")pageSize:String)
+            : BaseBean<MyPatrolBean>
 
 }

@@ -1,29 +1,28 @@
 package com.sewageproject.ui.fragment.work.bean
 
+import java.math.BigDecimal
+
 data class MyPatrolBean(
-    val `data`: List<Data>,
-    val daysOfMonth: Int
+    val `data`: MutableList<Data>,
+    val pageNo: Int,
+    val pageSize: Int
 )
 
 data class Data(
-        val inspectionScheOrderId: Any?,
-        val inspectionStaffId: String?,
-        val inspectionStaffName: String,
-        val orderYearAndMonth: String,
-        val scheObjs: List<ScheObj>
-)
-
-data class ScheObj(
     val completeRate: String,
-    val id: String,
-    val inspectionAreaType: String,
-    val inspectionPeriodType: String,
-    val oncePerDay: Boolean,
-    val pathId: String,
+    val inspectionStaffId: String,
+    val inspectionStaffName: String,
+    val orderYearAndMonth: String,
+    val pathId: Int,
     val pathName: String,
-    val plantAreaId: String,
-    val plantAreaName: String,
-    val twicePerDay: Boolean,
-    val validEndTime: String,
-    val validStartTime: String
-)
+    val periodMsg: String
+){
+ fun getCompleteRate():Int{
+   var rate =0
+   if(completeRate!=null&&completeRate.isNotEmpty()){
+    rate= completeRate.toBigDecimal().setScale(0,BigDecimal.ROUND_HALF_UP).intValueExact()
+
+   }
+  return rate
+ }
+}

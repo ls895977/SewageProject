@@ -6,21 +6,18 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.view.TimePickerView
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.enums.PopupPosition
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.sewageproject.R
 import com.sewageproject.base.BaseVmActivity
 import com.sewageproject.databinding.MypatrolactivityBinding
-import com.sewageproject.ui.fragment.bean.Record2
 import com.sewageproject.ui.fragment.work.adapter.MyPatrolAdapter
-import com.sewageproject.ui.fragment.work.bean.ScheObj
 import com.sewageproject.ui.fragment.work.model.MyPatrolViewModel
-import com.sewageproject.ui.message.MessageJianKongBean
 import com.sewageproject.ui.popup.MyPatrolPopupView
-import com.sewageproject.ui.popup.SupervisoryControlPopupView
 import com.sewageproject.utils.ActStartUtils
 import com.sewageproject.utils.MyTimeUtils
-import org.greenrobot.eventbus.EventBus
+import com.yechaoa.yutilskt.YUtils
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * 我的巡检
@@ -38,15 +35,25 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
     }
     private var myPatrolAdapter: MyPatrolAdapter?=null
     override fun initData() {
-        val dataList:MutableList<ScheObj> = ArrayList()
-        dataList.add(ScheObj("","","","",false,"","","","",false,"",""))
-        dataList.add(ScheObj("","","","",false,"","","","",false,"",""))
-        myPatrolAdapter=MyPatrolAdapter(dataList)
+        mBinding.mySmartRefreshLayout.autoRefresh()
+        myPatrolAdapter=MyPatrolAdapter(null)
         mBinding.myPatrolRecyclerView.adapter=myPatrolAdapter
-    }
+        mBinding.tvTime.text=MyTimeUtils.getYerMoth1()
 
+    }
+    private var pageNo=0
     override fun setListener() {
         mBinding.leftBack.setOnClickListener { finish() }
+        mBinding.mySmartRefreshLayout.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
+            override fun onRefresh(refreshLayout: RefreshLayout) {
+                pageNo=0
+                mViewModel.getMyScheduleForApp(MyTimeUtils.getYerMoth(),"",pageNo)
+            }
+            override fun onLoadMore(refreshLayout: RefreshLayout) {
+                pageNo++
+                mViewModel.getMyScheduleForApp(MyTimeUtils.getYerMoth(),"",pageNo)
+            }
+        })
         mBinding.clTime.setOnClickListener { //时间选择
             //点击组件的点击事件
             if (pvTime!=null){
@@ -64,7 +71,27 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
         }
     }
     override fun observe() {
+       mViewModel.myPatrolState.observe(this,{
+             if(!it){
+                 mBinding.mySmartRefreshLayout.finishRefresh()
+                 mBinding.mySmartRefreshLayout.finishLoadMore()
+             }
+           YUtils.hideLoading()
+       })
+        mViewModel.myPatrolData.observe(this,{
+            if(pageNo==it.pageNo){
+                mBinding.mySmartRefreshLayout.finishRefresh()
+                myPatrolAdapter?.setNewData(it.data)
+            }else{
+                 if(it.data.size<10){
+                     mBinding.mySmartRefreshLayout.finishRefreshWithNoMoreData()
+                 }else{
+                     mBinding.mySmartRefreshLayout.finishLoadMore()
+                 }
+                myPatrolAdapter?.addData(it.data)
+            }
 
+        })
 
     }
 
@@ -80,7 +107,10 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
             this
         ) { date, v ->
             //选中事件回调
+            YUtils.showLoading(this, "筛选中...")
             mBinding.tvTime.text=MyTimeUtils.getTimesYe(date)
+            pageNo=0
+            mViewModel.getMyScheduleForApp(MyTimeUtils.getTimes(date).toString(),"",pageNo)
         }
             .setType(booleanArrayOf(true, true, true, false, false, false)) // 默认全部显示
             .isCenterLabel(true)

@@ -101,12 +101,17 @@
      android:background="#f7f7f7"
      app:layout_constraintStart_toStartOf="parent"
      android:layout_height="@dimen/dip_1"/>
+ <com.scwang.smart.refresh.layout.SmartRefreshLayout
+     android:id="@+id/mySmartRefreshLayout"
+     android:layout_width="match_parent"
+     app:layout_constraintTop_toBottomOf="@+id/viewLiner"
+     app:layout_constraintBottom_toBottomOf="parent"
+     android:layout_height="@dimen/dp_0">
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/myPatrolRecyclerView"
       android:orientation="vertical"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-      app:layout_constraintTop_toBottomOf="@+id/viewLiner"
-      app:layout_constraintBottom_toBottomOf="parent"
       android:layout_width="match_parent"
-      android:layout_height="@dimen/dp_0"/>
+      android:layout_height="match_parent"/>
+ </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

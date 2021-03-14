@@ -6,14 +6,13 @@ import com.sewageproject.base.BaseVmFragment
 import com.sewageproject.databinding.MyinspectionauditfragmentBinding
 import com.sewageproject.ui.fragment.work.adapter.MyInspectionAuditAdapter
 import com.sewageproject.ui.fragment.work.bean.Data
-import com.sewageproject.ui.fragment.work.bean.ScheObj
 import com.sewageproject.ui.fragment.work.model.MyInspectionAuditModelView
 /**
  * 我的巡检=>未审核和审核通过
  */
 class MyInspectionAuditFragment:BaseVmFragment<MyinspectionauditfragmentBinding, MyInspectionAuditModelView>() {
     companion object {
-        fun newInstance(plantAreaType: String?): Fragment? {
+        fun newInstance(plantAreaType: String?): Fragment {
             val args = Bundle()
             args.putString("Title", plantAreaType)
             val fragment = MyInspectionAuditFragment()
@@ -36,8 +35,8 @@ class MyInspectionAuditFragment:BaseVmFragment<MyinspectionauditfragmentBinding,
                 binding?.clBut?.visibility= View.GONE
             }
             val dataList:MutableList<Data> = ArrayList()
-        dataList.add(Data("","","","", emptyList()))
-        dataList.add(Data("","","","", emptyList()))
+//        dataList.add(Data("","","","", emptyList()))
+//        dataList.add(Data("","","","", emptyList()))
             myAdapter=MyInspectionAuditAdapter(mystatus,dataList)
             binding?.myInspectionReyclerView?.adapter=myAdapter
     }
