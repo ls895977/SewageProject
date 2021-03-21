@@ -7,6 +7,7 @@ import com.sewageproject.ui.fragment.adapter.WorkbenchAdapter
 import com.sewageproject.ui.fragment.bean.WorkbenchBean
 import com.sewageproject.ui.fragment.viewmodel.WorkbenchViewModel
 import com.sewageproject.ui.fragment.work.activity.MyPatrolActivity
+import com.sewageproject.ui.fragment.work.activity.TroubleListActivity
 import com.sewageproject.utils.ActStartUtils
 
 /**
@@ -54,6 +55,10 @@ class WorkbenchMvpFragment :
                 when(childPosition){
                     0->{//我的巡检
                         ActStartUtils.startAct(context, MyPatrolActivity::class.java)
+                    }
+
+                    2->{//报障单
+                        ActStartUtils.startAct(context, TroubleListActivity::class.java)
                     }
                 }
             }
