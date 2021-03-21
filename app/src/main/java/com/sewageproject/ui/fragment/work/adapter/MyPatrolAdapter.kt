@@ -5,7 +5,7 @@ import com.sewageproject.R
 import com.sewageproject.ui.fragment.work.bean.Data
 import com.sewageproject.view.CircularProgressView
 
-class MyPatrolAdapter(dataList: MutableList<Data>?): BaseQuickAdapter<Data, BaseViewHolder>(R.layout.item_mypatrol,dataList) {
+class MyPatrolAdapter : BaseQuickAdapter<Data, BaseViewHolder>(R.layout.item_mypatrol) {
     override fun convert(holder: BaseViewHolder, item: Data) {
         val myProgress=holder.getView<CircularProgressView>(R.id.guZhangBar)
          myProgress.progress=item.getCompleteRate()

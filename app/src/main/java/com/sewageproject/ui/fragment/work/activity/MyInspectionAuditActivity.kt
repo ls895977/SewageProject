@@ -40,8 +40,8 @@ class MyInspectionAuditActivity:
     override fun initData() {
         mDataList.add("未审核")
         mDataList.add("审核通过")
-        MyInspectionAuditFragment.newInstance("111")?.let { mDataFragment.add(it) }
-        MyInspectionAuditFragment.newInstance("222")?.let { mDataFragment.add(it) }
+        MyInspectionAuditFragment.newInstance("111").let { mDataFragment.add(it) }
+        MyInspectionAuditFragment.newInstance("222").let { mDataFragment.add(it) }
         val myPagerAdapter = ExamplePagerAdapter(
             supportFragmentManager,
             mDataFragment

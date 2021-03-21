@@ -1,5 +1,7 @@
 package com.sewageproject.ui.fragment.work.activity
 import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import androidx.recyclerview.widget.RecyclerView
 import com.bigkoo.pickerview.builder.TimePickerBuilder
@@ -12,12 +14,14 @@ import com.sewageproject.R
 import com.sewageproject.base.BaseVmActivity
 import com.sewageproject.databinding.MypatrolactivityBinding
 import com.sewageproject.ui.fragment.work.adapter.MyPatrolAdapter
+import com.sewageproject.ui.fragment.work.bean.Data
 import com.sewageproject.ui.fragment.work.model.MyPatrolViewModel
 import com.sewageproject.ui.popup.MyPatrolPopupView
 import com.sewageproject.utils.ActStartUtils
 import com.sewageproject.utils.MyTimeUtils
 import com.yechaoa.yutilskt.YUtils
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 我的巡检
@@ -36,17 +40,18 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
     private var myPatrolAdapter: MyPatrolAdapter?=null
     override fun initData() {
         mBinding.mySmartRefreshLayout.autoRefresh()
-        myPatrolAdapter=MyPatrolAdapter(null)
+        myPatrolAdapter=MyPatrolAdapter()
         mBinding.myPatrolRecyclerView.adapter=myPatrolAdapter
         mBinding.tvTime.text=MyTimeUtils.getYerMoth1()
 
     }
-    private var pageNo=0
+    private var pageNo=1
+    private var allData: MutableList<Data>?= ArrayList()
     override fun setListener() {
         mBinding.leftBack.setOnClickListener { finish() }
         mBinding.mySmartRefreshLayout.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
             override fun onRefresh(refreshLayout: RefreshLayout) {
-                pageNo=0
+                pageNo=1
                 mViewModel.getMyScheduleForApp(MyTimeUtils.getYerMoth(),"",pageNo)
             }
             override fun onLoadMore(refreshLayout: RefreshLayout) {
@@ -69,6 +74,16 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
         myPatrolAdapter?.setOnItemClickListener { adapter, view, position ->
             ActStartUtils.startAct(this, MyInspectionAuditActivity::class.java)
         }
+        mBinding.tvTitle.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+               val menuDate= allData?.filter {it.pathName.contains(mBinding.tvTitle.text.toString())  }
+                 myPatrolAdapter?.setNewData(menuDate as MutableList<Data>?)
+            }
+        })
     }
     override fun observe() {
        mViewModel.myPatrolState.observe(this,{
@@ -79,7 +94,7 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
            YUtils.hideLoading()
        })
         mViewModel.myPatrolData.observe(this,{
-            if(pageNo==it.pageNo){
+            if(pageNo==1){
                 mBinding.mySmartRefreshLayout.finishRefresh()
                 myPatrolAdapter?.setNewData(it.data)
             }else{
@@ -90,7 +105,8 @@ class MyPatrolActivity : BaseVmActivity<MypatrolactivityBinding, MyPatrolViewMod
                  }
                 myPatrolAdapter?.addData(it.data)
             }
-
+            allData?.clear()
+            myPatrolAdapter?.data?.let { it1 -> allData?.addAll(it1) }
         })
 
     }
