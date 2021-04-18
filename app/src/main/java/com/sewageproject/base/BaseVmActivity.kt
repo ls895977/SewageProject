@@ -26,7 +26,6 @@ abstract class BaseVmActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivi
     private fun initViewModel() {
         mViewModel = ViewModelProvider(this).get(viewModelClass())
     }
-
     /**
      * 获取ViewModel的class
      */

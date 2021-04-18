@@ -60,6 +60,7 @@ class WorkbenchMvpFragment :
                     2->{//报障单
                         ActStartUtils.startAct(context, TroubleListActivity::class.java)
                     }
+
                 }
             }
 
